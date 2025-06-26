@@ -1,0 +1,5 @@
+Table squads {
+    id int [pk, increment]
+    name varchar
+    team_id int [fk(team)]
+}

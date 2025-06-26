@@ -1,0 +1,5 @@
+Table users {
+  id int [pk, increment]
+  name varchar
+  email varchar
+}

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="refresh" content="600" />
+  <title>ERD Diagram</title>
+  <script src="/livereload.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+      font-family: "Poppins", sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      overflow: hidden;
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      height: 100vh;
+    }
+    
+    .controls {
+      margin-bottom: 1rem;
+      background: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      z-index: 100;
+      position: relative;
+    }
+    
+    .diagram-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .zoom-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .zoom-btn {
+      padding: 0.5rem 0.75rem;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      background: white;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+      min-width: 40px;
+      user-select: none;
+    }
+    
+    .zoom-btn:hover {
+      border-color: #007acc;
+      background: #f0f8ff;
+    }
+    
+    .zoom-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .zoom-level {
+      font-size: 14px;
+      color: #666;
+      min-width: 60px;
+      text-align: center;
+      user-select: none;
+    }
+    
+    label {
+      font-weight: 600;
+      color: #333;
+      user-select: none;
+    }
+    
+    select {
+      padding: 0.5rem 1rem;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 14px;
+      background: white;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    
+    select:focus {
+      outline: none;
+      border-color: #007acc;
+    }
+    
+    .diagram-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      height: calc(100vh - 200px);
+      position: relative;
+      overflow: hidden;
+      cursor: grab;
+    }
+    
+    .diagram-container:active {
+      cursor: grabbing;
+    }
+    
+    .diagram-container.dragging {
+      cursor: grabbing;
+    }
+    
+    .diagram-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #fafafa;
+      background-image: 
+        radial-gradient(circle, #ddd 1px, transparent 1px);
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 10px;
+    }
+    
+    .diagram-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform-origin: center center;
+      transition: none;
+      will-change: transform;
+      pointer-events: none;
+    }
+    
+    .diagram-content.smooth-transition {
+      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    img {
+      display: block;
+      max-width: none;
+      max-height: none;
+      width: auto;
+      height: auto;
+      pointer-events: none;
+      user-select: none;
+      transform: translate(-50%, -50%);
+    }
+    
+    .title {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      padding: 0.75rem 1.5rem;
+      background: rgba(0, 122, 204, 0.9);
+      color: white;
+      border-radius: 8px;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+      z-index: 10;
+      pointer-events: none;
+      user-select: none;
+    }
+    
+    .loading {
+      display: none;
+      color: #666;
+      font-style: italic;
+    }
+    
+    .reset-btn {
+      padding: 0.5rem 1rem;
+      border: 2px solid #007acc;
+      border-radius: 6px;
+      background: #007acc;
+      color: white;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    
+    .reset-btn:hover {
+      background: #005a9e;
+      border-color: #005a9e;
+    }
+    
+    .zoom-indicator {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 6px;
+      font-size: 12px;
+      color: #666;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      pointer-events: none;
+      user-select: none;
+    }
+    
+    .minimap {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 200px;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 6px;
+      border: 2px solid #ddd;
+      backdrop-filter: blur(10px);
+      pointer-events: none;
+      user-select: none;
+      display: none;
+    }
+    
+    @media (max-width: 768px) {
+      .controls {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem;
+      }
+      
+      .zoom-controls {
+        order: -1;
+      }
+      
+      .minimap {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="controls">
+      <div class="diagram-selector">
+        <label for="diagramSelect">Select Diagram:</label>
+        <select id="diagramSelect" onchange="changeDiagram()">
+          <option value="all">Complete Schema</option>
+        </select>
+      </div>
+      
+      <div class="zoom-controls">
+        <button class="zoom-btn" onclick="zoomOut()">−</button>
+        <span class="zoom-level" id="zoomLevel">100%</span>
+        <button class="zoom-btn" onclick="zoomIn()">+</button>
+        <button class="reset-btn" onclick="resetView()">Reset View</button>
+      </div>
+      
+      <div class="loading" id="loading">Loading...</div>
+    </div>
+    
+    <div class="diagram-container" id="diagramContainer">
+      <div class="diagram-wrapper" id="diagramWrapper">
+        <div class="diagram-content" id="diagramContent">
+          <img id="diagramImage" src="/schema.svg" alt="ERD Diagram" />
+        </div>
+      </div>
+      <div class="zoom-indicator" id="zoomIndicator">100% • Use mouse wheel to zoom, drag to pan</div>
+    </div>
+  </div>
+  
+  <h1 class="title">JK E Diagram</h1>
+
+  <script>
+    let relations = [];
+    let currentZoom = 1;
+    let currentPan = { x: 0, y: 0 };
+    
+    // Dragging state
+    let isDragging = false;
+    let dragStart = { x: 0, y: 0 };
+    let panStart = { x: 0, y: 0 };
+    
+    // Elements
+    const diagramContainer = document.getElementById('diagramContainer');
+    const diagramContent = document.getElementById('diagramContent');
+    const zoomIndicator = document.getElementById('zoomIndicator');
+    
+    // Load relations from API
+    async function loadRelations() {
+      try {
+        const response = await fetch('/api/relations');
+        relations = await response.json();
+        
+        const select = document.getElementById('diagramSelect');
+        
+        // Clear existing options except the first one
+        while (select.children.length > 1) {
+          select.removeChild(select.lastChild);
+        }
+        
+        // Add relation options
+        relations.forEach(relation => {
+          const option = document.createElement('option');
+          option.value = relation.name;
+          option.textContent = `${relation.name} (Relation)`;
+          select.appendChild(option);
+        });
+        
+        console.log('Relations loaded:', relations);
+      } catch (error) {
+        console.error('Error loading relations:', error);
+      }
+    }
+    
+    // Change diagram based on selection
+    function changeDiagram() {
+      const select = document.getElementById('diagramSelect');
+      const img = document.getElementById('diagramImage');
+      const loading = document.getElementById('loading');
+      
+      loading.style.display = 'block';
+      
+      if (select.value === 'all') {
+        img.src = '/schema.svg?' + Date.now();
+        img.alt = 'Complete ERD Diagram';
+      } else {
+        const relation = relations.find(r => r.name === select.value);
+        if (relation) {
+          img.src = relation.svgPath + '?' + Date.now();
+          img.alt = `${relation.name} Relation Diagram`;
+        }
+      }
+      
+      img.onload = () => {
+        loading.style.display = 'none';
+        resetView();
+      };
+      
+      img.onerror = () => {
+        loading.style.display = 'none';
+        console.error('Error loading diagram:', img.src);
+      };
+    }
+    
+    // Update transform
+    function updateTransform(smooth = false) {
+      if (smooth) {
+        diagramContent.classList.add('smooth-transition');
+        setTimeout(() => {
+          diagramContent.classList.remove('smooth-transition');
+        }, 300);
+      }
+      
+      diagramContent.style.transform = `translate(${currentPan.x}px, ${currentPan.y}px) scale(${currentZoom})`;
+      
+      // Update zoom indicator
+      const zoomPercent = Math.round(currentZoom * 100);
+      zoomIndicator.textContent = `${zoomPercent}% • Use mouse wheel to zoom, drag to pan`;
+      
+      // Update zoom level display
+      document.getElementById('zoomLevel').textContent = zoomPercent + '%';
+    }
+    
+    // Zoom functions
+    function zoomIn() {
+      currentZoom = Math.min(currentZoom * 1.25, 10);
+      updateTransform(true);
+    }
+    
+    function zoomOut() {
+      currentZoom = Math.max(currentZoom / 1.25, 0.1);
+      updateTransform(true);
+    }
+    
+    function resetView() {
+      currentZoom = 1;
+      currentPan = { x: 0, y: 0 };
+      updateTransform(true);
+    }
+    
+    // Mouse wheel zoom with cursor position
+    function handleWheel(e) {
+      e.preventDefault();
+      
+      const rect = diagramContainer.getBoundingClientRect();
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      // Mouse position relative to container center
+      const mouseX = e.clientX - rect.left - centerX;
+      const mouseY = e.clientY - rect.top - centerY;
+      
+      const prevZoom = currentZoom;
+      
+      // Zoom
+      const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
+      currentZoom = Math.max(0.1, Math.min(10, currentZoom * zoomFactor));
+      
+      // Adjust pan to keep mouse position steady
+      const zoomChange = currentZoom / prevZoom;
+      currentPan.x = mouseX + (currentPan.x - mouseX) * zoomChange;
+      currentPan.y = mouseY + (currentPan.y - mouseY) * zoomChange;
+      
+      updateTransform();
+    }
+    
+    // Mouse drag handlers
+    function handleMouseDown(e) {
+      if (e.button !== 0) return; // Only left mouse button
+      
+      isDragging = true;
+      dragStart.x = e.clientX;
+      dragStart.y = e.clientY;
+      panStart.x = currentPan.x;
+      panStart.y = currentPan.y;
+      
+      diagramContainer.classList.add('dragging');
+      
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      
+      e.preventDefault();
+    }
+    
+    function handleMouseMove(e) {
+      if (!isDragging) return;
+      
+      const deltaX = e.clientX - dragStart.x;
+      const deltaY = e.clientY - dragStart.y;
+      
+      currentPan.x = panStart.x + deltaX;
+      currentPan.y = panStart.y + deltaY;
+      
+      updateTransform();
+      
+      e.preventDefault();
+    }
+    
+    function handleMouseUp(e) {
+      if (!isDragging) return;
+      
+      isDragging = false;
+      diagramContainer.classList.remove('dragging');
+      
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      
+      e.preventDefault();
+    }
+    
+    // Touch handlers for mobile
+    let touchStartDistance = 0;
+    let touchStartZoom = 1;
+    
+    function handleTouchStart(e) {
+      if (e.touches.length === 1) {
+        // Single touch - pan
+        isDragging = true;
+        const touch = e.touches[0];
+        dragStart.x = touch.clientX;
+        dragStart.y = touch.clientY;
+        panStart.x = currentPan.x;
+        panStart.y = currentPan.y;
+        diagramContainer.classList.add('dragging');
+      } else if (e.touches.length === 2) {
+        // Two finger - zoom
+        isDragging = false;
+        diagramContainer.classList.remove('dragging');
+        
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+        touchStartDistance = Math.hypot(
+          touch2.clientX - touch1.clientX,
+          touch2.clientY - touch1.clientY
+        );
+        touchStartZoom = currentZoom;
+      }
+      
+      e.preventDefault();
+    }
+    
+    function handleTouchMove(e) {
+      if (e.touches.length === 1 && isDragging) {
+        // Single touch - pan
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - dragStart.x;
+        const deltaY = touch.clientY - dragStart.y;
+        
+        currentPan.x = panStart.x + deltaX;
+        currentPan.y = panStart.y + deltaY;
+        
+        updateTransform();
+      } else if (e.touches.length === 2) {
+        // Two finger - zoom
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+        const currentDistance = Math.hypot(
+          touch2.clientX - touch1.clientX,
+          touch2.clientY - touch1.clientY
+        );
+        
+        if (touchStartDistance > 0) {
+          const scale = currentDistance / touchStartDistance;
+          currentZoom = Math.max(0.1, Math.min(10, touchStartZoom * scale));
+          updateTransform();
+        }
+      }
+      
+      e.preventDefault();
+    }
+    
+    function handleTouchEnd(e) {
+      if (e.touches.length === 0) {
+        isDragging = false;
+        diagramContainer.classList.remove('dragging');
+        touchStartDistance = 0;
+      }
+      
+      e.preventDefault();
+    }
+    
+    // Keyboard shortcuts
+    function handleKeyDown(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+      
+      switch(e.key) {
+        case '=':
+        case '+':
+          if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+            zoomIn();
+          }
+          break;
+        case '-':
+          if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+            zoomOut();
+          }
+          break;
+        case '0':
+          if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+            resetView();
+          }
+          break;
+        case ' ':
+          e.preventDefault();
+          resetView();
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          currentPan.y += 50;
+          updateTransform(true);
+          break;
+        case 'ArrowDown':
+          e.preventDefault();
+          currentPan.y -= 50;
+          updateTransform(true);
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          currentPan.x += 50;
+          updateTransform(true);
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          currentPan.x -= 50;
+          updateTransform(true);
+          break;
+      }
+    }
+    
+    // Initialize all event listeners
+    function initializeInteractions() {
+      // Mouse events
+      diagramContainer.addEventListener('wheel', handleWheel, { passive: false });
+      diagramContainer.addEventListener('mousedown', handleMouseDown);
+      
+      // Touch events
+      diagramContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+      diagramContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+      diagramContainer.addEventListener('touchend', handleTouchEnd, { passive: false });
+      
+      // Keyboard events
+      document.addEventListener('keydown', handleKeyDown);
+      
+      // Prevent context menu on right click
+      diagramContainer.addEventListener('contextmenu', e => e.preventDefault());
+      
+      // Prevent drag of images
+      document.addEventListener('dragstart', e => {
+        if (e.target.tagName === 'IMG') {
+          e.preventDefault();
+        }
+      });
+    }
+    
+    // Initialize everything
+    document.addEventListener('DOMContentLoaded', () => {
+      loadRelations();
+      initializeInteractions();
+      updateTransform();
+    });
+    
+    // Reload relations periodically
+    setInterval(loadRelations, 5000);
+  </script>
+</body>
+</html>
