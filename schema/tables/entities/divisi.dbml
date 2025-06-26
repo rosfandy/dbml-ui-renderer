@@ -1,7 +1,7 @@
-Table menus {
+Table divisi {
   id int [pk, increment]
-  label varchar
-  path varchar
+  name varchar
+  code varchar
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp
 }

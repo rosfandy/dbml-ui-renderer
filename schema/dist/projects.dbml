@@ -1,0 +1,16 @@
+// === ENTITY: projects ===
+Table projects {
+  id int [pk, increment]
+  name varchar
+  description text
+  start_date date
+  end_date date
+  divisi_id int
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp
+}
+
+// === RELATION: /relation/user_has_projects/user_has_projects.dbml ===
+Table user_has_projects {
+    project_id int [ref: > projects.id]
+}

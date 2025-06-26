@@ -1,7 +1,10 @@
-Table menus {
+Table projects {
   id int [pk, increment]
-  label varchar
-  path varchar
+  name varchar
+  description text
+  start_date date
+  end_date date
+  divisi_id int
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp
 }

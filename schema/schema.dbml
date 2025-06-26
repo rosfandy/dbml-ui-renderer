@@ -1,29 +1,90 @@
+// === TABLE: /entities/divisi.dbml ===
+Table divisi {
+  id int [pk, increment]
+  name varchar
+  code varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp
+}
+
 // === TABLE: /entities/menus.dbml ===
 Table menus {
-    id int [pk, increment]  
-    label varchar
-    path varchar
+  id int [pk, increment]
+  label varchar
+  path varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp
+}
+
+// === TABLE: /entities/projects.dbml ===
+Table projects {
+  id int [pk, increment]
+  name varchar
+  description text
+  start_date date
+  end_date date
+  divisi_id int
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp
 }
 
 // === TABLE: /entities/roles.dbml ===
 Table roles {
-    id int [pk, increment]  
-    name varchar
+  id int [pk, increment]
+  name varchar [not null, unique]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/spk.dbml ===
+Table spk {
+  id int [pk, increment]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp
+}
+
+// === TABLE: /entities/squad.dbml ===
+Table squad {
+  id int [pk,increment]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp
 }
 
 // === TABLE: /entities/users.dbml ===
 Table users {
   id int [pk, increment]
-  name varchar
-  email varchar
+  username varchar [not null, unique]
+  email varchar [not null, unique]
+  password varchar [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
+
+// === RELATION: /relation/project_divisi/project_divisi.dbml ===
+Table projects {
+  id int [pk, increment]
+  name varchar
+  description text
+  start_date date
+  end_date date
+  divisi_id int [ref: > divisi.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp
+}
 
 // === RELATION: /relation/role_has_menus/role_has_menus.dbml ===
 Table role_has_menus {
     id int [pk, increment]
     role_id int [ref: > roles.id]
     menu_id int [ref: > menus.id]
+}
+
+// === RELATION: /relation/user_has_projects/user_has_projects.dbml ===
+Table user_has_projects {
+    id int [pk, increment]  
+    user_id int [ref: > users.id]
+    project_id int [ref: > projects.id]
 }
 
 // === RELATION: /relation/user_has_roles/user_has_roles.dbml ===

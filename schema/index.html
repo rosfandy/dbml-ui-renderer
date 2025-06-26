@@ -295,31 +295,45 @@
     const zoomIndicator = document.getElementById('zoomIndicator');
     
     // Load relations from API
-    async function loadRelations() {
-      try {
-        const response = await fetch('/api/relations');
-        relations = await response.json();
-        
-        const select = document.getElementById('diagramSelect');
-        
-        // Clear existing options except the first one
-        while (select.children.length > 1) {
-          select.removeChild(select.lastChild);
-        }
-        
-        // Add relation options
-        relations.forEach(relation => {
-          const option = document.createElement('option');
-          option.value = relation.name;
-          option.textContent = `${relation.name} (Relation)`;
-          select.appendChild(option);
-        });
-        
-        console.log('Relations loaded:', relations);
+    // Load relations and entities from API
+async function loadRelations() {
+  try {
+    const response = await fetch('/api/relations');
+    relations = await response.json();
+
+    const select = document.getElementById('diagramSelect');
+
+    // Clear existing options except the first one
+    while (select.children.length > 1) {
+      select.removeChild(select.lastChild);
+    }
+
+    // Add entity options
+    relations
+      .filter(item => item.type === 'entity')
+      .forEach(entity => {
+        const option = document.createElement('option');
+        option.value = entity.name;
+        option.textContent = `${entity.name} (Entity)`;
+        select.appendChild(option);
+      });
+
+    // Add relation options
+    relations
+      .filter(item => item.type === 'relation')
+      .forEach(relation => {
+        const option = document.createElement('option');
+        option.value = relation.name;
+        option.textContent = `${relation.name} (Relation)`;
+        select.appendChild(option);
+      });
+
+        console.log('Relations and entities loaded:', relations);
       } catch (error) {
         console.error('Error loading relations:', error);
       }
     }
+
     
     // Change diagram based on selection
     function changeDiagram() {

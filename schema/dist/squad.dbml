@@ -1,7 +1,6 @@
-Table menus {
-  id int [pk, increment]
-  label varchar
-  path varchar
+// === ENTITY: squad ===
+Table squad {
+  id int [pk,increment]
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp
 }

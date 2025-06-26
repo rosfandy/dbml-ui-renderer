@@ -1,0 +1,24 @@
+// === TABLE DEPENDENCY: roles ===
+Table roles {
+  id int [pk, increment]
+  name varchar [not null, unique]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: users ===
+Table users {
+  id int [pk, increment]
+  username varchar [not null, unique]
+  email varchar [not null, unique]
+  password varchar [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+
+Table user_has_roles {
+    id int [pk, increment]  
+    user_id int [ref: > users.id]
+    role_id int [ref: > roles.id]
+}

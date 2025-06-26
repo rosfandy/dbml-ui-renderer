@@ -1,0 +1,17 @@
+// === ENTITY: roles ===
+Table roles {
+  id int [pk, increment]
+  name varchar [not null, unique]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === RELATION: /relation/role_has_menus/role_has_menus.dbml ===
+Table role_has_menus {
+    role_id int [ref: > roles.id]
+}
+
+// === RELATION: /relation/user_has_roles/user_has_roles.dbml ===
+Table user_has_roles {
+    role_id int [ref: > roles.id]
+}

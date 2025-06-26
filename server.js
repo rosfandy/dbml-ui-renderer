@@ -18,58 +18,61 @@ const port = 3123;
 
 const schemaDir = join(process.cwd(), "schema");
 const tablesDir = join(schemaDir, "tables");
-const svgDir = join(schemaDir, "svg"); // Folder untuk SVG individual
+const svgDir = join(schemaDir, "dist");
 const outputDbml = join(schemaDir, "schema.dbml");
 const outputSvg = join(schemaDir, "schema.svg");
 
-// 🔁 Livereload setup
 const liveReloadServer = livereload.createServer();
 liveReloadServer.watch(schemaDir);
 
 app.use(connectLivereload());
 app.use(express.static(schemaDir));
 
-// Serve index.html di GET /
 app.get("/", (req, res) => {
   res.sendFile(join(schemaDir, "index.html"));
 });
 
-// API untuk mendapatkan daftar relation diagrams
 app.get("/api/relations", (req, res) => {
-  const relations = getAllDbmlFiles(tablesDir)
+  const allFiles = getAllDbmlFiles(tablesDir);
+  const relations = allFiles
     .filter((file) => file.type === "relation")
     .map((file) => {
-      // Extract relation name dari path
-      const pathParts = file.relativePath.split("/");
-      const relationName = pathParts[pathParts.length - 1].replace(".dbml", "");
-
+      const name = file.relativePath.split("/").pop().replace(".dbml", "");
       return {
-        name: relationName,
+        name,
+        type: "relation",
         path: file.relativePath,
-        svgPath: `/svg/${relationName}.svg`,
+        svgPath: `/dist/${name}.svg`,
       };
     });
 
-  res.json(relations);
+  const entities = allFiles
+    .filter((file) => file.type === "table")
+    .map((file) => {
+      const name = file.relativePath.split("/").pop().replace(".dbml", "");
+      return {
+        name,
+        type: "entity",
+        path: file.relativePath,
+        svgPath: `/dist/${name}.svg`,
+      };
+    });
+
+  res.json([...entities, ...relations]);
 });
 
-// 📁 Fungsi untuk membaca file .dbml secara rekursif
 function getAllDbmlFiles(dir, basePath = tablesDir) {
   let files = [];
-
   if (!existsSync(dir)) return files;
 
   const items = readdirSync(dir);
-
   for (const item of items) {
     const fullPath = join(dir, item);
     const stat = statSync(fullPath);
 
     if (stat.isDirectory()) {
-      // Rekursif untuk subfolder
       files = files.concat(getAllDbmlFiles(fullPath, basePath));
     } else if (item.endsWith(".dbml")) {
-      // Tentukan tipe berdasarkan path relatif
       const relativePath = fullPath.replace(basePath, "").replace(/\\/g, "/");
       const type = relativePath.includes("/relation/") ? "relation" : "table";
       files.push({ path: fullPath, type, relativePath });
@@ -79,25 +82,22 @@ function getAllDbmlFiles(dir, basePath = tablesDir) {
   return files;
 }
 
-// 🔍 Function to extract table references from DBML content
 function extractTableReferences(dbmlContent) {
   const references = new Set();
 
-  // Match patterns like: ref: > table_name.column or ref: < table_name.column
-  const refMatches = dbmlContent.match(/ref:\s*[<>-]\s*(\w+)\./g);
+  const refMatches = dbmlContent.match(/ref:\s*[<>\-]\s*(\w+)\./g);
   if (refMatches) {
     refMatches.forEach((match) => {
-      const tableName = match.replace(/ref:\s*[<>-]\s*/, "").replace(".", "");
+      const tableName = match.replace(/ref:\s*[<>\-]\s*/, "").replace(".", "");
       references.add(tableName);
     });
   }
 
-  // Match standalone Ref definitions: Ref: table1.col > table2.col
-  const standalonRefMatches = dbmlContent.match(
-    /Ref:\s*(\w+)\.\w+\s*[<>-]\s*(\w+)\./g
+  const standaloneRefMatches = dbmlContent.match(
+    /Ref:\s*(\w+)\.\w+\s*[<>\-]\s*(\w+)\./g
   );
-  if (standalonRefMatches) {
-    standalonRefMatches.forEach((match) => {
+  if (standaloneRefMatches) {
+    standaloneRefMatches.forEach((match) => {
       const tables = match.match(/(\w+)\./g);
       if (tables) {
         tables.forEach((table) => {
@@ -110,89 +110,53 @@ function extractTableReferences(dbmlContent) {
   return Array.from(references);
 }
 
-// 🔧 Gabungkan DBML modular + render SVG
 function build() {
-  // Pastikan folder svg ada
+  console.log("🔧 Starting build process...");
+
   if (!existsSync(svgDir)) {
     mkdirSync(svgDir, { recursive: true });
+    console.log(`📁 Created output directory: ${svgDir}`);
   }
 
-  // Dapatkan semua file .dbml secara rekursif
   const allFiles = getAllDbmlFiles(tablesDir);
-
-  // Separate table and relation files
   const tableFiles = allFiles.filter((file) => file.type === "table");
   const relationFiles = allFiles.filter((file) => file.type === "relation");
 
-  // DEBUG: Print info
-  // console.log("🔍 DEBUG INFO:");
-  // console.log("   tablesDir:", tablesDir);
-  // console.log("   svgDir:", svgDir);
-  // console.log("   tablesDir exists:", existsSync(tablesDir));
-  // console.log("   📋 All DBML files found:");
-
-  allFiles.forEach(({ path, type, relativePath }) => {
-    // console.log(
-    //   `     ${type === "relation" ? "🔗" : "📁"} ${relativePath} (${type})`
-    // );
-  });
-
-  console.log("   📋 Total files to combine:", allFiles.length);
+  console.log(
+    `📄 Found ${tableFiles.length} tables and ${relationFiles.length} relations`
+  );
 
   const combined = allFiles
     .map(({ path, type, relativePath }) => {
       const content = readFileSync(path, "utf-8");
-      console.log(
-        `   ✅ Reading ${type}: ${relativePath} (${content.length} chars)`
-      );
       return `// === ${type.toUpperCase()}: ${relativePath} ===\n${content}`;
     })
     .join("\n\n");
 
   writeFileSync(outputDbml, combined);
-  console.log(
-    `✅ schema.dbml updated (${allFiles.length} files combined, ${combined.length} chars total)`
-  );
+  console.log(`✅ Combined schema written to ${outputDbml}`);
 
-  // Generate SVG utama
-  exec(
-    `npx dbml-renderer -i ${outputDbml} -o ${outputSvg}`,
-    (err, stdout, stderr) => {
-      if (err) {
-        console.error("❌ Error rendering main SVG:", stderr);
-      } else {
-        // console.log("✅ schema.svg generated");
-        liveReloadServer.refresh("/schema.svg");
-      }
+  exec(`npx dbml-renderer -i ${outputDbml} -o ${outputSvg}`, (err) => {
+    if (err) {
+      console.error("❌ Error generating main schema.svg:", err);
+    } else {
+      console.log(`✅ schema.svg generated at ${outputSvg}`);
+      liveReloadServer.refresh("/schema.svg");
     }
-  );
+  });
 
-  // Generate SVG individual untuk setiap relation
   relationFiles.forEach(({ path, relativePath }) => {
-    // Extract relation name dari path (misal: /relation/squad_member/squad_member.dbml -> squad_member)
-    const pathParts = relativePath.split("/");
-    const relationName = pathParts[pathParts.length - 1].replace(".dbml", ""); // Ambil nama file tanpa .dbml
-
+    const name = relativePath.split("/").pop().replace(".dbml", "");
     const relationContent = readFileSync(path, "utf-8");
-    const relationDbmlPath = join(svgDir, `${relationName}.dbml`);
-    const relationSvgPath = join(svgDir, `${relationName}.svg`);
+    const relationDbmlPath = join(svgDir, `${name}.dbml`);
+    const relationSvgPath = join(svgDir, `${name}.svg`);
 
-    // console.log(`   🔗 Processing relation: ${relationName}`);
-    // console.log(`      Source: ${relativePath}`);
-    // console.log(`      DBML output: ${relationDbmlPath}`);
-    // console.log(`      SVG output: ${relationSvgPath}`);
-
-    // Extract referenced tables from relation content
     const referencedTables = extractTableReferences(relationContent);
-    // console.log(`      Referenced tables: [${referencedTables.join(", ")}]`);
-
-    // Build complete DBML content with dependencies
     let completeContent = relationContent;
 
-    // Add referenced table definitions
     referencedTables.forEach((tableName) => {
-      const tableFile = tableFiles.find((file) => {
-        const content = readFileSync(file.path, "utf-8");
+      const tableFile = tableFiles.find(({ path }) => {
+        const content = readFileSync(path, "utf-8");
         return (
           content.includes(`Table ${tableName} {`) ||
           content.includes(`Table ${tableName}{`)
@@ -201,39 +165,112 @@ function build() {
 
       if (tableFile) {
         const tableContent = readFileSync(tableFile.path, "utf-8");
-        console.log(
-          `      ✅ Including table: ${tableName} from ${tableFile.relativePath}`
-        );
         completeContent = `// === TABLE DEPENDENCY: ${tableName} ===\n${tableContent}\n\n${completeContent}`;
-      } else {
-        console.log(`      ⚠️  Table not found: ${tableName}`);
       }
     });
 
-    // Tulis file DBML lengkap untuk relation
     writeFileSync(relationDbmlPath, completeContent);
-
-    // Generate SVG untuk relation ini
+    console.log(`🔗 Generating relation diagram: ${name}`);
     exec(
       `npx dbml-renderer -i ${relationDbmlPath} -o ${relationSvgPath}`,
-      (err, stdout, stderr) => {
+      (err) => {
         if (err) {
-          console.error(`❌ Error rendering ${relationName} SVG:`, stderr);
+          console.error(`❌ Failed to generate ${name}.svg:`, err);
         } else {
-          console.log(`✅ ${relationName}.svg generated`);
+          console.log(`✅ ${name}.svg generated`);
+        }
+      }
+    );
+  });
+
+  const entityNames = tableFiles
+    .map(({ path }) => {
+      const content = readFileSync(path, "utf-8");
+      const match = content.match(/Table\s+(\w+)/);
+      return match ? match[1] : null;
+    })
+    .filter(Boolean);
+
+  entityNames.forEach((entityName) => {
+    const entityFile = tableFiles.find(({ path }) => {
+      const fileName = path.split("/").pop()?.replace(".dbml", "");
+      return fileName === entityName;
+    });
+
+    if (!entityFile) return;
+
+    const entityContent = readFileSync(entityFile.path, "utf-8");
+    let completeContent = `// === ENTITY: ${entityName} ===\n${entityContent}`;
+
+    // Referensi langsung dari entity ke table lain
+    const referencedTables = [
+      ...new Set(
+        [...entityContent.matchAll(/ref:\s*[<>-]\s*(\w+)\.\w+/g)].map(
+          (match) => match[1]
+        )
+      ),
+    ];
+
+    referencedTables.forEach((tableName) => {
+      if (tableName === entityName) return;
+
+      const refTableFile = tableFiles.find(({ path }) => {
+        const fileName = path.split("/").pop()?.replace(".dbml", "");
+        return fileName === tableName;
+      });
+
+      if (refTableFile) {
+        const refTableContent = readFileSync(refTableFile.path, "utf-8");
+        completeContent = `// === TABLE DEPENDENCY: ${tableName} ===\n${refTableContent}\n\n${completeContent}`;
+      } else {
+        console.warn(
+          `⚠️ Referenced table "${tableName}" not found for "${entityName}"`
+        );
+      }
+    });
+
+    // Tambahkan relasi dari folder /relation
+    relationFiles.forEach(({ path, relativePath }) => {
+      const relationContent = readFileSync(path, "utf-8");
+
+      const tableNameMatch = relationContent.match(/Table\s+(\w+)/);
+      if (!tableNameMatch) return;
+      const relationTableName = tableNameMatch[1];
+
+      const fieldLines = relationContent.split("\n").filter((line) => {
+        return new RegExp(`ref:\\s*[<>\\-]\\s*${entityName}\\.id`).test(line);
+      });
+
+      if (fieldLines.length === 0) return;
+
+      const filteredRelation = `Table ${relationTableName} {\n${fieldLines.join(
+        "\n"
+      )}\n}`;
+      completeContent += `\n\n// === RELATION: ${relativePath} ===\n${filteredRelation}`;
+    });
+
+    const entityDbmlPath = join(svgDir, `${entityName}.dbml`);
+    const entitySvgPath = join(svgDir, `${entityName}.svg`);
+    writeFileSync(entityDbmlPath, completeContent + "\n");
+    console.log(`📦 Generating entity diagram: ${entityName}`);
+    exec(
+      `npx dbml-renderer -i ${entityDbmlPath} -o ${entitySvgPath}`,
+      (err) => {
+        if (err) {
+          console.error(`❌ Failed to generate ${entityName}.svg:`, err);
+        } else {
+          console.log(`✅ ${entityName}.svg generated`);
         }
       }
     );
   });
 }
 
-// Start server + watch DBML files
 app.listen(port, () => {
   console.log(`🌐 Server running at http://localhost:${port}`);
   build();
 });
 
-// Watch entire tables directory (including subdirectories)
 chokidar.watch(tablesDir, { ignored: /node_modules/ }).on("change", () => {
   console.log("🔁 Change detected. Rebuilding...");
   build();

@@ -1,0 +1,20 @@
+// === ENTITY: users ===
+Table users {
+  id int [pk, increment]
+  username varchar [not null, unique]
+  email varchar [not null, unique]
+  password varchar [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+
+// === RELATION: /relation/user_has_projects/user_has_projects.dbml ===
+Table user_has_projects {
+    user_id int [ref: > users.id]
+}
+
+// === RELATION: /relation/user_has_roles/user_has_roles.dbml ===
+Table user_has_roles {
+    user_id int [ref: > users.id]
+}

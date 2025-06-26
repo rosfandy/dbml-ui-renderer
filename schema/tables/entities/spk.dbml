@@ -1,7 +1,5 @@
-Table menus {
+Table spk {
   id int [pk, increment]
-  label varchar
-  path varchar
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp
 }
