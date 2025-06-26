@@ -1,13 +1,14 @@
-// === TABLE: /entities/prd.dbml ===
-Table prd {
-    id INT [pk, increment]
+// === TABLE: /entities/menus.dbml ===
+Table menus {
+    id int [pk, increment]  
+    label varchar
+    path varchar
 }
 
-// === TABLE: /entities/squad.dbml ===
-Table squads {
-    id int [pk, increment]
+// === TABLE: /entities/roles.dbml ===
+Table roles {
+    id int [pk, increment]  
     name varchar
-    team_id int [fk(team)]
 }
 
 // === TABLE: /entities/users.dbml ===
@@ -18,8 +19,16 @@ Table users {
 }
 
 
-// === RELATION: /relation/squad_member/squad_member.dbml ===
-Table squad_member {
+// === RELATION: /relation/role_has_menus/role_has_menus.dbml ===
+Table role_has_menus {
+    id int [pk, increment]
+    role_id int [ref: > roles.id]
+    menu_id int [ref: > menus.id]
+}
+
+// === RELATION: /relation/user_has_roles/user_has_roles.dbml ===
+Table user_has_roles {
     id int [pk, increment]  
-    squad_id int [ref: > users.id] 
+    user_id int [ref: > users.id]
+    role_id int [ref: > roles.id]
 }

@@ -1,0 +1,4 @@
+Table roles {
+    id int [pk, increment]  
+    name varchar
+}

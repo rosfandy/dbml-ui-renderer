@@ -1,0 +1,5 @@
+Table menus {
+    id int [pk, increment]  
+    label varchar
+    path varchar
+}

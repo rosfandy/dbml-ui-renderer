@@ -1,3 +1,0 @@
-Table prd {
-    id INT [pk, increment]
-}

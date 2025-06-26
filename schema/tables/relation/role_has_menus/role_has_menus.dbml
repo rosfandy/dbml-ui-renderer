@@ -1,0 +1,5 @@
+Table role_has_menus {
+    id int [pk, increment]
+    role_id int [ref: > roles.id]
+    menu_id int [ref: > menus.id]
+}
