@@ -1,0 +1,24 @@
+// === TABLE DEPENDENCY: projects ===
+Table projects {
+  id int [pk, increment]
+  nama varchar [not null]
+  deskripsi text
+  tanggal_mulai date
+  tanggal_selesai date
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: squads ===
+Table squads {
+  id int [pk, increment]
+  nama varchar [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+Table squad_projects {
+  id int [pk, increment]
+  squad_id int [ref: > squads.id]
+  project_id int [ref: > projects.id]
+}

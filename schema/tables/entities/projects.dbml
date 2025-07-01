@@ -1,10 +1,7 @@
 Table projects {
   id int [pk, increment]
-  name varchar
-  description text
-  start_date date
-  end_date date
-  divisi_id int
-  created_at timestamp [default: `CURRENT_TIMESTAMP`]
-  updated_at timestamp
+  nama varchar [not null]
+  deskripsi text
+  tanggal_mulai date
+  tanggal_selesai date
 }

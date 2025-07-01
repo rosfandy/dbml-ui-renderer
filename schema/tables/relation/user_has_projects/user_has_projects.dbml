@@ -1,5 +1,0 @@
-Table user_has_projects {
-    id int [pk, increment]  
-    user_id int [ref: > users.id]
-    project_id int [ref: > projects.id]
-}

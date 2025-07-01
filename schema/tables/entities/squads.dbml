@@ -1,0 +1,7 @@
+Table squads {
+  id int [pk, increment]
+  nama varchar [not null]
+  project_id int [ref: > projects.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}

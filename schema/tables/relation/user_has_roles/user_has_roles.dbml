@@ -1,5 +1,0 @@
-Table user_has_roles {
-    id int [pk, increment]  
-    user_id int [ref: > users.id]
-    role_id int [ref: > roles.id]
-}

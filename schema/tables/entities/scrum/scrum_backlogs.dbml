@@ -1,0 +1,13 @@
+Table scrum_backlogs {
+    id int [pk, autoincrement]
+    squad_id int [ref: > squads.id]
+    pic int [ref: > users.id]
+    sub_divisi_id int
+    status_id int
+    judul varchar
+    deskripsi text
+    kode varchar
+    prioritas prioritas
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}

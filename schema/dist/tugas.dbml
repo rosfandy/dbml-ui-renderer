@@ -1,0 +1,44 @@
+// === TABLE DEPENDENCY: projects ===
+Table projects {
+  id int [pk, increment]
+  nama varchar [not null]
+  deskripsi text
+  tanggal_mulai date
+  tanggal_selesai date
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: users ===
+Table users {
+  id int [pk, increment]
+  name varchar [not null]
+  email varchar [not null, unique]
+  email_verified_at timestamp
+  password varchar [not null]
+  remember_token varchar
+  custom_fields json
+  avatar_url varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: statuses ===
+Table statuses {
+  id int [pk, increment]
+  nama varchar
+  deskripsi varchar
+}
+
+// === ENTITY: tugas ===
+Table tugas {
+  id int [pk, increment]
+  status_id int [ref: > statuses.id]
+  user_id int [ref: > users.id]
+  dibuat_oleh int [ref: > users.id]
+  project_id int [ref: > projects.id]
+  nama varchar
+  point int
+  deskripsi varchar
+  prioritas prioritas
+}

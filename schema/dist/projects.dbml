@@ -1,16 +1,38 @@
 // === ENTITY: projects ===
 Table projects {
   id int [pk, increment]
-  name varchar
-  description text
-  start_date date
-  end_date date
-  divisi_id int
-  created_at timestamp [default: `CURRENT_TIMESTAMP`]
-  updated_at timestamp
+  nama varchar [not null]
+  deskripsi text
+  tanggal_mulai date
+  tanggal_selesai date
 }
 
-// === RELATION: /relation/user_has_projects/user_has_projects.dbml ===
-Table user_has_projects {
-    project_id int [ref: > projects.id]
+// === DIRECT RELATION: /entities/attachments.dbml ===
+Table attachments {
+  project_id int [ref: > projects.id]
+}
+
+// === DIRECT RELATION: /entities/documents.dbml ===
+Table documents {
+  project_id int [ref: > projects.id]
+}
+
+// === DIRECT RELATION: /entities/scrum/scrum_sprints.dbml ===
+Table scrum_sprints {
+  project_id int [ref: > projects.id]
+}
+
+// === DIRECT RELATION: /entities/scrum/scrum_tasks.dbml ===
+Table scrum_tasks {
+  project_id int [ref: > projects.id]
+}
+
+// === DIRECT RELATION: /entities/squads.dbml ===
+Table squads {
+  project_id int [ref: > projects.id]
+}
+
+// === DIRECT RELATION: /entities/user_stories.dbml ===
+Table user_stories {
+  project_id int [ref: > projects.id]
 }

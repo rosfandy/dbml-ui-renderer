@@ -1,0 +1,27 @@
+// === TABLE DEPENDENCY: projects ===
+Table projects {
+  id int [pk, increment]
+  nama varchar [not null]
+  deskripsi text
+  tanggal_mulai date
+  tanggal_selesai date
+}
+
+// === ENTITY: squads ===
+Table squads {
+  id int [pk, increment]
+  nama varchar [not null]
+  project_id int [ref: > projects.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === RELATION: /relation/squad_members/squad_members.dbml ===
+Table squad_members {
+    squad_id int [ref: > squads.id]
+}
+
+// === DIRECT RELATION: /entities/scrum/scrum_backlogs.dbml ===
+Table scrum_backlogs {
+  squad_id int [ref: > squads.id]
+}

@@ -1,0 +1,30 @@
+// === TABLE DEPENDENCY: users ===
+Table users {
+  id int [pk, increment]
+  name varchar [not null]
+  email varchar [not null, unique]
+  email_verified_at timestamp
+  password varchar [not null]
+  remember_token varchar
+  custom_fields json
+  avatar_url varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: projects ===
+Table projects {
+  id int [pk, increment]
+  nama varchar [not null]
+  deskripsi text
+  tanggal_mulai date
+  tanggal_selesai date
+}
+
+// === ENTITY: attachments ===
+Table attachments {
+  id int [pk, increment]
+  project_id int [ref: > projects.id]
+  user_id int [ref: > users.id]
+  file_path varchar
+}

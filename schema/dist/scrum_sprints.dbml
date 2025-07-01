@@ -1,0 +1,17 @@
+// === TABLE DEPENDENCY: projects ===
+Table projects {
+  id int [pk, increment]
+  nama varchar [not null]
+  deskripsi text
+  tanggal_mulai date
+  tanggal_selesai date
+}
+
+// === ENTITY: scrum_sprints ===
+Table scrum_sprints {
+  id int [pk, increment]
+  nama varchar [not null]
+  project_id int [ref: > projects.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}

@@ -1,0 +1,22 @@
+// === TABLE DEPENDENCY: modules ===
+Table modules {
+  id int [pk, increment]
+  name string
+  slug string
+  created_at timestamp
+  updated_at timestamp
+}
+
+// === ENTITY: resources ===
+Table resources {
+  id int [pk]
+  module_id int [ref: > modules.id]
+  resource_type varchar
+  reference_id int
+}
+
+
+// === DIRECT RELATION: /entities/tasks.dbml ===
+Table tasks {
+  resource_id int [ref: > resources.id]
+}

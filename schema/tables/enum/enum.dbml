@@ -1,0 +1,5 @@
+Enum prioritas {
+  LOW
+  MEDIUM
+  HIGH
+}

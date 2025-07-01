@@ -1,0 +1,6 @@
+Table documents {
+    id int [pk, increment]
+    project_id int [ref: > projects.id]
+    nama varchar
+    kode varchar
+}

@@ -1,0 +1,56 @@
+// === TABLE DEPENDENCY: modules ===
+Table modules {
+  id int [pk, increment]
+  nama string
+  tipe string
+  created_at timestamp
+  updated_at timestamp
+}
+
+// === TABLE DEPENDENCY: users ===
+Table users {
+  id int [pk, increment]
+  name varchar [not null]
+  email varchar [not null, unique]
+  email_verified_at timestamp
+  password varchar [not null]
+  remember_token varchar
+  custom_fields json
+  avatar_url varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: projects ===
+Table projects {
+  id int [pk, increment]
+  nama varchar [not null]
+  deskripsi text
+  tanggal_mulai date
+  tanggal_selesai date
+}
+
+// === TABLE DEPENDENCY: squads ===
+Table squads {
+  id int [pk, increment]
+  nama varchar [not null]
+  project_id int [ref: > projects.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === ENTITY: backlogs ===
+Table backlogs {
+    id int [pk, autoincrement]
+    squad_id int [ref: > squads.id]
+    pic int [ref: > users.id]
+    modules_id int [ref: > modules.id]
+    sub_divisi_id int
+    status_id int
+    judul varchar
+    deskripsi text
+    kode varchar
+    prioritas prioritas
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}

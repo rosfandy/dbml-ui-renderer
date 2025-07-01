@@ -1,95 +1,146 @@
-// === TABLE: /entities/divisi.dbml ===
-Table divisi {
-  id int [pk, increment]
-  name varchar
-  code varchar
-  created_at timestamp [default: `CURRENT_TIMESTAMP`]
-  updated_at timestamp
+// === ENUM: /enum/enum.dbml ===
+Enum prioritas {
+  LOW
+  MEDIUM
+  HIGH
 }
 
-// === TABLE: /entities/menus.dbml ===
-Table menus {
+
+// === TABLE: /entities/attachments.dbml ===
+Table attachments {
   id int [pk, increment]
-  label varchar
-  path varchar
-  created_at timestamp [default: `CURRENT_TIMESTAMP`]
-  updated_at timestamp
+  project_id int [ref: > projects.id]
+  user_id int [ref: > users.id]
+  file_path varchar
+}
+
+// === TABLE: /entities/documents.dbml ===
+Table documents {
+    id int [pk, increment]
+    project_id int [ref: > projects.id]
+    nama varchar
+    kode varchar
+}
+
+// === TABLE: /entities/label.dbml ===
+Table label {
+  id int [pk, increment]
+  nama varchar
+  slug varchar
+  created_at datetime
+  updated_at datetime
 }
 
 // === TABLE: /entities/projects.dbml ===
 Table projects {
   id int [pk, increment]
-  name varchar
-  description text
-  start_date date
-  end_date date
-  divisi_id int
-  created_at timestamp [default: `CURRENT_TIMESTAMP`]
-  updated_at timestamp
+  nama varchar [not null]
+  deskripsi text
+  tanggal_mulai date
+  tanggal_selesai date
 }
 
-// === TABLE: /entities/roles.dbml ===
-Table roles {
+// === TABLE: /entities/scrum/scrum_backlogs.dbml ===
+Table scrum_backlogs {
+    id int [pk, autoincrement]
+    squad_id int [ref: > squads.id]
+    pic int [ref: > users.id]
+    sub_divisi_id int
+    status_id int
+    judul varchar
+    deskripsi text
+    kode varchar
+    prioritas prioritas
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/scrum/scrum_comment_childs.dbml ===
+Table scrum_comment_childs{
+    id int [pk, increment]
+    comment_id int [ref: > scrum_comments.id]
+    user_id int [ref: > users.id]
+    content text
+}
+
+// === TABLE: /entities/scrum/scrum_comments.dbml ===
+Table scrum_comments {
+    id int [pk, increment]
+    task_id int [ref: > scrum_tasks.id]
+    user_id int [ref: > users.id]
+    content text
+}
+
+// === TABLE: /entities/scrum/scrum_sprints.dbml ===
+Table scrum_sprints {
   id int [pk, increment]
-  name varchar [not null, unique]
+  nama varchar [not null]
+  project_id int [ref: > projects.id]
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === TABLE: /entities/spk.dbml ===
-Table spk {
+// === TABLE: /entities/scrum/scrum_tasks.dbml ===
+Table scrum_tasks {
   id int [pk, increment]
+  nama varchar
+  point int
+  deskripsi text
+  status_id int [ref: > statuses.id]
+  prioritas prioritas
+  pic int [ref: > users.id]
+  dibuat_oleh int [ref: > users.id]
+  project_id int [ref: > projects.id]
+  tanggal_mulai date
+  tanggal_selesai date
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
-  updated_at timestamp
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === TABLE: /entities/squad.dbml ===
-Table squad {
-  id int [pk,increment]
+// === TABLE: /entities/squads.dbml ===
+Table squads {
+  id int [pk, increment]
+  nama varchar [not null]
+  project_id int [ref: > projects.id]
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
-  updated_at timestamp
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/statuses.dbml ===
+Table statuses {
+  id int [pk, increment]
+  nama varchar
+  deskripsi varchar
+}
+
+// === TABLE: /entities/user_stories.dbml ===
+Table user_stories {
+    id int [pk, increment]
+    dokumen_id int [ref: > documents.id]
+    project_id int [ref: > projects.id]
+    nama varchar 
+    kode varchar
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
 // === TABLE: /entities/users.dbml ===
 Table users {
   id int [pk, increment]
-  username varchar [not null, unique]
+  name varchar [not null]
   email varchar [not null, unique]
+  email_verified_at timestamp
   password varchar [not null]
+  remember_token varchar
+  custom_fields json
+  avatar_url varchar
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-
-// === RELATION: /relation/project_divisi/project_divisi.dbml ===
-Table projects {
-  id int [pk, increment]
-  name varchar
-  description text
-  start_date date
-  end_date date
-  divisi_id int [ref: > divisi.id]
-  created_at timestamp [default: `CURRENT_TIMESTAMP`]
-  updated_at timestamp
-}
-
-// === RELATION: /relation/role_has_menus/role_has_menus.dbml ===
-Table role_has_menus {
+// === RELATION: /relation/squad_members/squad_members.dbml ===
+Table squad_members {
     id int [pk, increment]
-    role_id int [ref: > roles.id]
-    menu_id int [ref: > menus.id]
-}
-
-// === RELATION: /relation/user_has_projects/user_has_projects.dbml ===
-Table user_has_projects {
-    id int [pk, increment]  
     user_id int [ref: > users.id]
-    project_id int [ref: > projects.id]
-}
-
-// === RELATION: /relation/user_has_roles/user_has_roles.dbml ===
-Table user_has_roles {
-    id int [pk, increment]  
-    user_id int [ref: > users.id]
-    role_id int [ref: > roles.id]
+    squad_id int [ref: > squads.id]
 }

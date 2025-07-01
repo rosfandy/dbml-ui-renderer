@@ -1,0 +1,7 @@
+// === ENTITY: scrum_checklists ===
+Table scrum_checklists {
+  id int [pk, increment]
+  nama varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
