@@ -1,5 +1,6 @@
 Table users {
   id int [pk, increment]
+  title_id int [ref: - user_titles.id]
   name varchar [not null]
   email varchar [not null, unique]
   email_verified_at timestamp

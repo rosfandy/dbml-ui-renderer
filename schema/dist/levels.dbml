@@ -1,0 +1,12 @@
+// === ENTITY: levels ===
+Table levels {
+  id int [pk, increment]
+  name varchar [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === DIRECT RELATION: /entities/user_titles.dbml ===
+Table user_titles {
+  level_id int [ref: > levels.id]
+}

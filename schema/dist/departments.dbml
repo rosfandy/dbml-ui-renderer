@@ -1,0 +1,17 @@
+// === ENTITY: departments ===
+Table departments {
+  id int [pk, increment]
+  name varchar [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === DIRECT RELATION: /entities/positions.dbml ===
+Table positions {
+  department_id int [ref: > departments.id]
+}
+
+// === DIRECT RELATION: /entities/user_titles.dbml ===
+Table user_titles {
+  department_id int [ref: > departments.id]
+}

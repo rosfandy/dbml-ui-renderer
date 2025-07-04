@@ -22,7 +22,7 @@ Table departments {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === TABLE DEPENDENCY: user_titles ===
+// === ENTITY: user_titles ===
 Table user_titles {
   id int [pk, increment]
   name varchar [not null]
@@ -33,17 +33,7 @@ Table user_titles {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === ENTITY: users ===
+// === DIRECT RELATION: /entities/users.dbml ===
 Table users {
-  id int [pk, increment]
   title_id int [ref: - user_titles.id]
-  name varchar [not null]
-  email varchar [not null, unique]
-  email_verified_at timestamp
-  password varchar [not null]
-  remember_token varchar
-  custom_fields json
-  avatar_url varchar
-  created_at timestamp [default: `CURRENT_TIMESTAMP`]
-  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }

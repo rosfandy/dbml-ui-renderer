@@ -1,0 +1,4 @@
+// === ENTITY: level ===
+Table level {
+  id int
+}

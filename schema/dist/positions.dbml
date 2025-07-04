@@ -1,0 +1,20 @@
+// === TABLE DEPENDENCY: departments ===
+Table departments {
+  id int [pk, increment]
+  name varchar [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === ENTITY: positions ===
+Table positions {
+    id int [pk, increment]
+    department_id int [ref: > departments.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === DIRECT RELATION: /entities/user_titles.dbml ===
+Table user_titles {
+  position_id int [ref: > positions.id]
+}

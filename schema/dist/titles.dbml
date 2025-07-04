@@ -22,28 +22,13 @@ Table departments {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === TABLE DEPENDENCY: user_titles ===
-Table user_titles {
+// === ENTITY: titles ===
+Table titles {
   id int [pk, increment]
   name varchar [not null]
   department_id int [ref: > departments.id]
   position_id int [ref: > positions.id]
   level_id int [ref: > levels.id]
-  created_at timestamp [default: `CURRENT_TIMESTAMP`]
-  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
-}
-
-// === ENTITY: users ===
-Table users {
-  id int [pk, increment]
-  title_id int [ref: - user_titles.id]
-  name varchar [not null]
-  email varchar [not null, unique]
-  email_verified_at timestamp
-  password varchar [not null]
-  remember_token varchar
-  custom_fields json
-  avatar_url varchar
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }

@@ -6,9 +6,45 @@ Enum prioritas {
 }
 
 
-// === TABLE: /entities/karyawan.dbml ===
+// === TABLE: /entities/departments.dbml ===
+Table departments {
+  id int [pk, increment]
+  name varchar [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/level.dbml ===
+Table levels {
+  id int [pk, increment]
+  name varchar [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/positions.dbml ===
+Table positions {
+    id int [pk, increment]
+    department_id int [ref: > departments.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/user_titles.dbml ===
+Table user_titles {
+  id int [pk, increment]
+  name varchar [not null]
+  department_id int [ref: > departments.id]
+  position_id int [ref: > positions.id]
+  level_id int [ref: > levels.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/users.dbml ===
 Table users {
   id int [pk, increment]
+  title_id int [ref: - user_titles.id]
   name varchar [not null]
   email varchar [not null, unique]
   email_verified_at timestamp
