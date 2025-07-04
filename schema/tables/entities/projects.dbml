@@ -1,7 +1,0 @@
-Table projects {
-  id int [pk, increment]
-  nama varchar [not null]
-  deskripsi text
-  tanggal_mulai date
-  tanggal_selesai date
-}

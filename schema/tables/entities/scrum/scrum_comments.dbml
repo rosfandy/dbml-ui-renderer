@@ -1,6 +1,0 @@
-Table scrum_comments {
-    id int [pk, increment]
-    task_id int [ref: > scrum_tasks.id]
-    user_id int [ref: > users.id]
-    content text
-}

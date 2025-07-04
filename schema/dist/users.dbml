@@ -11,34 +11,3 @@ Table users {
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
-
-// === RELATION: /relation/squad_members/squad_members.dbml ===
-Table squad_members {
-    user_id int [ref: > users.id]
-}
-
-// === DIRECT RELATION: /entities/attachments.dbml ===
-Table attachments {
-  user_id int [ref: > users.id]
-}
-
-// === DIRECT RELATION: /entities/scrum/scrum_backlogs.dbml ===
-Table scrum_backlogs {
-  pic int [ref: > users.id]
-}
-
-// === DIRECT RELATION: /entities/scrum/scrum_comment_childs.dbml ===
-Table scrum_comment_childs {
-  user_id int [ref: > users.id]
-}
-
-// === DIRECT RELATION: /entities/scrum/scrum_comments.dbml ===
-Table scrum_comments {
-  user_id int [ref: > users.id]
-}
-
-// === DIRECT RELATION: /entities/scrum/scrum_tasks.dbml ===
-Table scrum_tasks {
-  pic int [ref: > users.id]
-  dibuat_oleh int [ref: > users.id]
-}

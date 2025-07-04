@@ -1,9 +1,0 @@
-Table user_stories {
-    id int [pk, increment]
-    dokumen_id int [ref: > documents.id]
-    project_id int [ref: > projects.id]
-    nama varchar 
-    kode varchar
-    created_at timestamp [default: `CURRENT_TIMESTAMP`]
-    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
-}

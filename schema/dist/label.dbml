@@ -1,8 +1,0 @@
-// === ENTITY: label ===
-Table label {
-  id int [pk, increment]
-  nama varchar
-  slug varchar
-  created_at datetime
-  updated_at datetime
-}

@@ -1,13 +1,5 @@
-// === ENUM: /enum/enum.dbml ===
-Enum prioritas {
-  LOW
-  MEDIUM
-  HIGH
-}
-
-
-// === TABLE: /entities/karyawan.dbml ===
-Table users {
+// === ENTITY: karyawan ===
+Table karyawan {
   id int [pk, increment]
   name varchar [not null]
   email varchar [not null, unique]

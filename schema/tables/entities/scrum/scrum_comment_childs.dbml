@@ -1,6 +1,0 @@
-Table scrum_comment_childs{
-    id int [pk, increment]
-    comment_id int [ref: > scrum_comments.id]
-    user_id int [ref: > users.id]
-    content text
-}

@@ -1,5 +1,0 @@
-Table squad_members {
-    id int [pk, increment]
-    user_id int [ref: > users.id]
-    squad_id int [ref: > squads.id]
-}

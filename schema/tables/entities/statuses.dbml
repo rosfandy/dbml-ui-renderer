@@ -1,5 +1,0 @@
-Table statuses {
-  id int [pk, increment]
-  nama varchar
-  deskripsi varchar
-}

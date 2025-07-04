@@ -1,5 +1,0 @@
-// === ENTITY: user_story ===
-Table user_story {
-  id int [pk, increment]
-
-}

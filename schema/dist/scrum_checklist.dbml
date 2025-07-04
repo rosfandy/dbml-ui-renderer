@@ -1,4 +1,0 @@
-// === ENTITY: scrum_checklist ===
-Table scrum_checklist {
-  id int [pk, increment]
-}

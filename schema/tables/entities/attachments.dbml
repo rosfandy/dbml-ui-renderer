@@ -1,6 +1,0 @@
-Table attachments {
-  id int [pk, increment]
-  project_id int [ref: > projects.id]
-  user_id int [ref: > users.id]
-  file_path varchar
-}
