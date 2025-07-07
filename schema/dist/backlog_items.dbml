@@ -4,6 +4,8 @@ Table statuses {
   name varchar
   position_id int [ref: > positions.id]
   category status
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
 // === TABLE DEPENDENCY: projects ===
