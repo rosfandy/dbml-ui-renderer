@@ -23,7 +23,7 @@ Table statuses {
   category status
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
-}
+} 
 
 // === RELATION: /relation/backlog_items/backlog_items.dbml ===
 Table backlog_items {

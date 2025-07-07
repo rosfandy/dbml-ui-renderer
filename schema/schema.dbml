@@ -91,7 +91,7 @@ Table statuses {
   category status
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
-}
+} 
 
 // === TABLE: /entities/titles.dbml ===
 Table titles {
@@ -125,7 +125,6 @@ Table backlog_items {
   backlog_id int [ref: > backlogs.id]
   assigned_to int [ref: > users.id]
   status_id int [ref: > statuses.id]
-  position_id int [ref: > positions.id]
   code varchar
   start_date date
   end_date date

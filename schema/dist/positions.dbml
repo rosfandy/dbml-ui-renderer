@@ -15,11 +15,6 @@ Table positions {
     updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === RELATION: /relation/backlog_items/backlog_items.dbml ===
-Table backlog_items {
-  position_id int [ref: > positions.id]
-}
-
 // === DIRECT RELATION: /entities/scrum/statuses.dbml ===
 Table statuses {
   position_id int [ref: > positions.id]
