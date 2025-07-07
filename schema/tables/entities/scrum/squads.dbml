@@ -1,5 +1,6 @@
 Table squads {
   id int [pk, increment]
+  project_id int [ref: > projects.id]
   name varchar
   code varchar
   created_at timestamp [default: `CURRENT_TIMESTAMP`]

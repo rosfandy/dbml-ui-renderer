@@ -62,49 +62,49 @@
 <text text-anchor="middle" x="694.05" y="-356.99" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">1</text>
 <text text-anchor="middle" x="496.64" y="-549.99" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">*</text>
 </g>
-<!-- project_squads -->
-<g id="project_squads" class="node">
-<title>project_squads</title>
-<ellipse fill="none" stroke="black" stroke-width="0" cx="294.86" cy="-377.39" rx="259.52" ry="87.86"/>
-<polygon fill="#1d71b8" stroke="transparent" points="113.86,-377.39 113.86,-437.39 476.86,-437.39 476.86,-377.39 113.86,-377.39"/>
-<polygon fill="none" stroke="#29235c" points="113.86,-377.39 113.86,-437.39 476.86,-437.39 476.86,-377.39 113.86,-377.39"/>
-<text text-anchor="start" x="124.64" y="-398.59" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="32.00" fill="#ffffff"> &#160;&#160;&#160;&#160;&#160;&#160;project_squads &#160;&#160;&#160;&#160;&#160;&#160;</text>
-<polygon fill="#e7e2dd" stroke="transparent" points="113.86,-317.39 113.86,-377.39 476.86,-377.39 476.86,-317.39 113.86,-317.39"/>
-<polygon fill="none" stroke="#29235c" points="113.86,-317.39 113.86,-377.39 476.86,-377.39 476.86,-317.39 113.86,-317.39"/>
-<text text-anchor="start" x="124.86" y="-337.59" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">project_id &#160;&#160;&#160;</text>
-<text text-anchor="start" x="432.08" y="-338.59" font-family="Helvetica,sans-Serif" font-style="italic" font-size="32.00" fill="#29235c">int</text>
-<polygon fill="none" stroke="#29235c" stroke-width="2" points="112.36,-316.39 112.36,-438.39 477.36,-438.39 477.36,-316.39 112.36,-316.39"/>
-</g>
-<!-- project_squads&#45;&gt;projects -->
-<!-- project_squads&#45;&gt;projects -->
-<g id="edge4" class="edge">
-<title>project_squads:e&#45;&gt;projects:w</title>
-<path fill="none" stroke="#29235c" stroke-width="3" d="M477.86,-347.39C574.48,-347.39 601.11,-347.39 692.94,-347.39"/>
-<polygon fill="#29235c" stroke="#29235c" stroke-width="3" points="692.94,-350.89 702.94,-347.39 692.94,-343.89 692.94,-350.89"/>
-<text text-anchor="middle" x="711.84" y="-356.99" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">1</text>
-<text text-anchor="middle" x="471.64" y="-356.99" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">*</text>
-</g>
 <!-- backlogs -->
 <g id="backlogs" class="node">
 <title>backlogs</title>
-<ellipse fill="none" stroke="black" stroke-width="0" cx="294.86" cy="-184.39" rx="195.32" ry="87.86"/>
-<polygon fill="#1d71b8" stroke="transparent" points="158.86,-184.39 158.86,-244.39 430.86,-244.39 430.86,-184.39 158.86,-184.39"/>
-<polygon fill="none" stroke="#29235c" points="158.86,-184.39 158.86,-244.39 430.86,-244.39 430.86,-184.39 158.86,-184.39"/>
-<text text-anchor="start" x="169.49" y="-205.59" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="32.00" fill="#ffffff"> &#160;&#160;&#160;&#160;&#160;&#160;backlogs &#160;&#160;&#160;&#160;&#160;&#160;</text>
-<polygon fill="#e7e2dd" stroke="transparent" points="158.86,-124.39 158.86,-184.39 430.86,-184.39 430.86,-124.39 158.86,-124.39"/>
-<polygon fill="none" stroke="#29235c" points="158.86,-124.39 158.86,-184.39 430.86,-184.39 430.86,-124.39 158.86,-124.39"/>
-<text text-anchor="start" x="169.86" y="-144.59" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">project_id &#160;&#160;&#160;</text>
-<text text-anchor="start" x="386.08" y="-145.59" font-family="Helvetica,sans-Serif" font-style="italic" font-size="32.00" fill="#29235c">int</text>
-<polygon fill="none" stroke="#29235c" stroke-width="2" points="157.86,-123.39 157.86,-245.39 431.86,-245.39 431.86,-123.39 157.86,-123.39"/>
+<ellipse fill="none" stroke="black" stroke-width="0" cx="294.86" cy="-377.39" rx="195.32" ry="87.86"/>
+<polygon fill="#1d71b8" stroke="transparent" points="158.86,-377.39 158.86,-437.39 430.86,-437.39 430.86,-377.39 158.86,-377.39"/>
+<polygon fill="none" stroke="#29235c" points="158.86,-377.39 158.86,-437.39 430.86,-437.39 430.86,-377.39 158.86,-377.39"/>
+<text text-anchor="start" x="169.49" y="-398.59" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="32.00" fill="#ffffff"> &#160;&#160;&#160;&#160;&#160;&#160;backlogs &#160;&#160;&#160;&#160;&#160;&#160;</text>
+<polygon fill="#e7e2dd" stroke="transparent" points="158.86,-317.39 158.86,-377.39 430.86,-377.39 430.86,-317.39 158.86,-317.39"/>
+<polygon fill="none" stroke="#29235c" points="158.86,-317.39 158.86,-377.39 430.86,-377.39 430.86,-317.39 158.86,-317.39"/>
+<text text-anchor="start" x="169.86" y="-337.59" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">project_id &#160;&#160;&#160;</text>
+<text text-anchor="start" x="386.08" y="-338.59" font-family="Helvetica,sans-Serif" font-style="italic" font-size="32.00" fill="#29235c">int</text>
+<polygon fill="none" stroke="#29235c" stroke-width="2" points="157.86,-316.39 157.86,-438.39 431.86,-438.39 431.86,-316.39 157.86,-316.39"/>
 </g>
 <!-- backlogs&#45;&gt;projects -->
 <!-- backlogs&#45;&gt;projects -->
-<g id="edge6" class="edge">
+<g id="edge4" class="edge">
 <title>backlogs:e&#45;&gt;projects:w</title>
-<path fill="none" stroke="#29235c" stroke-width="3" d="M431.86,-154.39C502.49,-154.39 618.03,-330.44 692.69,-346.25"/>
-<polygon fill="#29235c" stroke="#29235c" stroke-width="3" points="692.62,-349.77 702.94,-347.39 693.39,-342.81 692.62,-349.77"/>
+<path fill="none" stroke="#29235c" stroke-width="3" d="M431.86,-347.39C548.93,-347.39 580.68,-347.39 692.92,-347.39"/>
+<polygon fill="#29235c" stroke="#29235c" stroke-width="3" points="692.94,-350.89 702.94,-347.39 692.94,-343.89 692.94,-350.89"/>
+<text text-anchor="middle" x="711.84" y="-356.99" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">1</text>
+<text text-anchor="middle" x="425.64" y="-356.99" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">*</text>
+</g>
+<!-- squads -->
+<g id="squads" class="node">
+<title>squads</title>
+<ellipse fill="none" stroke="black" stroke-width="0" cx="294.86" cy="-184.39" rx="178.8" ry="87.86"/>
+<polygon fill="#1d71b8" stroke="transparent" points="170.86,-184.39 170.86,-244.39 419.86,-244.39 419.86,-184.39 170.86,-184.39"/>
+<polygon fill="none" stroke="#29235c" points="170.86,-184.39 170.86,-244.39 419.86,-244.39 419.86,-184.39 170.86,-184.39"/>
+<text text-anchor="start" x="181.54" y="-205.59" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="32.00" fill="#ffffff"> &#160;&#160;&#160;&#160;&#160;&#160;squads &#160;&#160;&#160;&#160;&#160;&#160;</text>
+<polygon fill="#e7e2dd" stroke="transparent" points="170.86,-124.39 170.86,-184.39 419.86,-184.39 419.86,-124.39 170.86,-124.39"/>
+<polygon fill="none" stroke="#29235c" points="170.86,-124.39 170.86,-184.39 419.86,-184.39 419.86,-124.39 170.86,-124.39"/>
+<text text-anchor="start" x="181.86" y="-144.59" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">project_id &#160;&#160;&#160;</text>
+<text text-anchor="start" x="375.08" y="-145.59" font-family="Helvetica,sans-Serif" font-style="italic" font-size="32.00" fill="#29235c">int</text>
+<polygon fill="none" stroke="#29235c" stroke-width="2" points="169.36,-123.39 169.36,-245.39 420.36,-245.39 420.36,-123.39 169.36,-123.39"/>
+</g>
+<!-- squads&#45;&gt;projects -->
+<!-- squads&#45;&gt;projects -->
+<g id="edge6" class="edge">
+<title>squads:e&#45;&gt;projects:w</title>
+<path fill="none" stroke="#29235c" stroke-width="3" d="M420.86,-154.39C493.55,-154.39 615.9,-331.16 692.86,-346.35"/>
+<polygon fill="#29235c" stroke="#29235c" stroke-width="3" points="692.64,-349.84 702.94,-347.39 693.35,-342.88 692.64,-349.84"/>
 <text text-anchor="middle" x="694.05" y="-318.59" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">1</text>
-<text text-anchor="middle" x="425.64" y="-125.59" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">*</text>
+<text text-anchor="middle" x="414.64" y="-125.59" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">*</text>
 </g>
 </g>
 </svg>

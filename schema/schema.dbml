@@ -77,6 +77,7 @@ Table sprints {
 // === TABLE: /entities/scrum/squads.dbml ===
 Table squads {
   id int [pk, increment]
+  project_id int [ref: > projects.id]
   name varchar
   code varchar
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
@@ -141,15 +142,6 @@ Table project_milestones {
   project_id int [ref: > projects.id]
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
-}
-
-// === RELATION: /relation/project_squads/project_squads.dbml ===
-Table project_squads {
-    id int [pk, increment]
-    project_id int [ref: > projects.id]
-    squad_id int [ref: > squads.id]
-    created_at timestamp [default: `CURRENT_TIMESTAMP`]
-    updated_at timestamp [default: `CURRENT_TIMESTAMP`]
 }
 
 // === RELATION: /relation/squad_members/squad_members.dbml ===
