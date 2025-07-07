@@ -1,0 +1,12 @@
+Table backlogs {
+  id int [pk, increment]
+  pic int [ref: > users.id]
+  project_id int [ref: > projects.id]
+  code varchar 
+  priority prioritas
+  description text
+  start_date date
+  end_date date
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}

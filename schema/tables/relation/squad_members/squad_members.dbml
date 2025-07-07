@@ -1,0 +1,7 @@
+Table squad_members {
+  id int [pk, increment]
+  squad_id int [ref: > squads.id]
+  user_id int [ref: > users.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}

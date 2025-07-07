@@ -1,3 +1,20 @@
+// === TABLE DEPENDENCY: statuses ===
+Table statuses {
+  id int [pk, increment]
+  name varchar
+  position_id int [ref: > positions.id]
+  category status
+}
+
+// === TABLE DEPENDENCY: projects ===
+Table projects {
+  id int [pk, increment]
+  name varchar [not null]
+  code varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
 // === TABLE DEPENDENCY: levels ===
 Table levels {
   id int [pk, increment]
@@ -34,7 +51,7 @@ Table titles {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === ENTITY: users ===
+// === TABLE DEPENDENCY: users ===
 Table users {
   id int [pk, increment]
   title_id int [ref: - titles.id]
@@ -49,17 +66,31 @@ Table users {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === RELATION: /relation/backlog_items/backlog_items.dbml ===
-Table backlog_items {
-  assigned_to int [ref: > users.id]
-}
-
-// === RELATION: /relation/squad_members/squad_members.dbml ===
-Table squad_members {
-  user_id int [ref: > users.id]
-}
-
-// === DIRECT RELATION: /entities/scrum/backlogs.dbml ===
+// === TABLE DEPENDENCY: backlogs ===
 Table backlogs {
+  id int [pk, increment]
   pic int [ref: > users.id]
+  project_id int [ref: > projects.id]
+  code varchar 
+  priority prioritas
+  description text
+  start_date date
+  end_date date
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+Table backlog_items {
+  id int [pk, increment]
+  backlog_id int [ref: > backlogs.id]
+  assigned_to int [ref: > users.id]
+  status_id int [ref: > statuses.id]
+  position_id int [ref: > positions.id]
+  code varchar
+  start_date date
+  end_date date
+  priority prioritas
+  description text
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }

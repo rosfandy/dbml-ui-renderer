@@ -5,6 +5,11 @@ Enum prioritas {
   HIGH
 }
 
+Enum status {
+  TODO
+  IN_PROGRESS
+  DONE
+}
 
 // === TABLE: /entities/departments.dbml ===
 Table departments {
@@ -13,6 +18,9 @@ Table departments {
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
+
+// === TABLE: /entities/documents.dbml ===
+
 
 // === TABLE: /entities/level.dbml ===
 Table levels {
@@ -25,13 +33,66 @@ Table levels {
 // === TABLE: /entities/positions.dbml ===
 Table positions {
     id int [pk, increment]
+    name varchar [not null]
     department_id int [ref: > departments.id]
     created_at timestamp [default: `CURRENT_TIMESTAMP`]
     updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === TABLE: /entities/user_titles.dbml ===
-Table user_titles {
+// === TABLE: /entities/scrum/backlogs.dbml ===
+Table backlogs {
+  id int [pk, increment]
+  pic int [ref: > users.id]
+  project_id int [ref: > projects.id]
+  code varchar 
+  priority prioritas
+  description text
+  start_date date
+  end_date date
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/scrum/projects.dbml ===
+Table projects {
+  id int [pk, increment]
+  name varchar [not null]
+  code varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/scrum/sprints.dbml ===
+Table sprints {
+  id int [pk, increment]
+  name varchar
+  code varchar
+  start_date datetime
+  end_date datetime
+  squad_id int [ref: > squads.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/scrum/squads.dbml ===
+Table squads {
+  id int [pk, increment]
+  name varchar
+  code varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/scrum/statuses.dbml ===
+Table statuses {
+  id int [pk, increment]
+  name varchar
+  position_id int [ref: > positions.id]
+  category status
+}
+
+// === TABLE: /entities/titles.dbml ===
+Table titles {
   id int [pk, increment]
   name varchar [not null]
   department_id int [ref: > departments.id]
@@ -44,7 +105,7 @@ Table user_titles {
 // === TABLE: /entities/users.dbml ===
 Table users {
   id int [pk, increment]
-  title_id int [ref: - user_titles.id]
+  title_id int [ref: - titles.id]
   name varchar [not null]
   email varchar [not null, unique]
   email_verified_at timestamp
@@ -54,4 +115,47 @@ Table users {
   avatar_url varchar
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === RELATION: /relation/backlog_items/backlog_items.dbml ===
+Table backlog_items {
+  id int [pk, increment]
+  backlog_id int [ref: > backlogs.id]
+  assigned_to int [ref: > users.id]
+  status_id int [ref: > statuses.id]
+  position_id int [ref: > positions.id]
+  code varchar
+  start_date date
+  end_date date
+  priority prioritas
+  description text
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === RELATION: /relation/project_milestones/project_milestones.dbml ===
+Table project_milestones {
+  id int [pk, increment]
+  name varchar
+  project_id int [ref: > projects.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === RELATION: /relation/project_squads/project_squads.dbml ===
+Table project_squads {
+    id int [pk, increment]
+    project_id int [ref: > projects.id]
+    squad_id int [ref: > squads.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+// === RELATION: /relation/squad_members/squad_members.dbml ===
+Table squad_members {
+  id int [pk, increment]
+  squad_id int [ref: > squads.id]
+  user_id int [ref: > users.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
 }

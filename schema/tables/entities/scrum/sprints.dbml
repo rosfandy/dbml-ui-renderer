@@ -1,0 +1,10 @@
+Table sprints {
+  id int [pk, increment]
+  name varchar
+  code varchar
+  start_date datetime
+  end_date datetime
+  squad_id int [ref: > squads.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}

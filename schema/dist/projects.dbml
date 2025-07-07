@@ -1,0 +1,23 @@
+// === ENTITY: projects ===
+Table projects {
+  id int [pk, increment]
+  name varchar [not null]
+  code varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === RELATION: /relation/project_milestones/project_milestones.dbml ===
+Table project_milestones {
+  project_id int [ref: > projects.id]
+}
+
+// === RELATION: /relation/project_squads/project_squads.dbml ===
+Table project_squads {
+    project_id int [ref: > projects.id]
+}
+
+// === DIRECT RELATION: /entities/scrum/backlogs.dbml ===
+Table backlogs {
+  project_id int [ref: > projects.id]
+}

@@ -3,3 +3,9 @@ Enum prioritas {
   MEDIUM
   HIGH
 }
+
+Enum status {
+  TODO
+  IN_PROGRESS
+  DONE
+}

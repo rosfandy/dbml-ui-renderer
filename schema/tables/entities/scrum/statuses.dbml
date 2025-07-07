@@ -1,0 +1,6 @@
+Table statuses {
+  id int [pk, increment]
+  name varchar
+  position_id int [ref: > positions.id]
+  category status
+}

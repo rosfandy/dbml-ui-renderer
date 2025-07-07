@@ -1,0 +1,14 @@
+Table backlog_items {
+  id int [pk, increment]
+  backlog_id int [ref: > backlogs.id]
+  assigned_to int [ref: > users.id]
+  status_id int [ref: > statuses.id]
+  position_id int [ref: > positions.id]
+  code varchar
+  start_date date
+  end_date date
+  priority prioritas
+  description text
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}

@@ -11,7 +11,7 @@ Table positions {
   department_id int [ref: > departments.id]
 }
 
-// === DIRECT RELATION: /entities/user_titles.dbml ===
-Table user_titles {
+// === DIRECT RELATION: /entities/titles.dbml ===
+Table titles {
   department_id int [ref: > departments.id]
 }

@@ -1,0 +1,37 @@
+// === TABLE DEPENDENCY: departments ===
+Table departments {
+  id int [pk, increment]
+  name varchar [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: positions ===
+Table positions {
+    id int [pk, increment]
+    name varchar [not null]
+    department_id int [ref: > departments.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: statuses ===
+Table statuses {
+  id int [pk, increment]
+  category status
+}
+
+// === ENTITY: status_positions ===
+Table status_positions {
+    id int [pk, increment]
+    name varchar
+    status_id int [ref: > statuses.id]
+    position_id int [ref: > positions.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+// === RELATION: /relation/backlog_items/backlog_items.dbml ===
+Table backlog_items {
+  status_position_id int [ref: > status_positions.id]
+}

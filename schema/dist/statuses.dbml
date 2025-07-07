@@ -6,7 +6,7 @@ Table departments {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === ENTITY: positions ===
+// === TABLE DEPENDENCY: positions ===
 Table positions {
     id int [pk, increment]
     name varchar [not null]
@@ -15,17 +15,15 @@ Table positions {
     updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
+// === ENTITY: statuses ===
+Table statuses {
+  id int [pk, increment]
+  name varchar
+  position_id int [ref: > positions.id]
+  category status
+}
+
 // === RELATION: /relation/backlog_items/backlog_items.dbml ===
 Table backlog_items {
-  position_id int [ref: > positions.id]
-}
-
-// === DIRECT RELATION: /entities/scrum/statuses.dbml ===
-Table statuses {
-  position_id int [ref: > positions.id]
-}
-
-// === DIRECT RELATION: /entities/titles.dbml ===
-Table titles {
-  position_id int [ref: > positions.id]
+  status_id int [ref: > statuses.id]
 }

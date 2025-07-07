@@ -1,0 +1,7 @@
+Table project_milestones {
+  id int [pk, increment]
+  name varchar
+  project_id int [ref: > projects.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}

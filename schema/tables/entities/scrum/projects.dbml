@@ -1,9 +1,7 @@
-Table user_titles {
+Table projects {
   id int [pk, increment]
   name varchar [not null]
-  department_id int [ref: > departments.id]
-  position_id int [ref: > positions.id]
-  level_id int [ref: > levels.id]
+  code varchar
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
