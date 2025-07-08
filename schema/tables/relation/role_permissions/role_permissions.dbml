@@ -1,0 +1,7 @@
+Table role_permissions {
+    id int [pk, increment]
+    role_id int [ref: > roles.id]
+    permission_id int [ref: > permissions.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}

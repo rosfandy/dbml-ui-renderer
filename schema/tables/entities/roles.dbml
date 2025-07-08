@@ -1,0 +1,7 @@
+Table roles {
+    id int [pk, increment]
+    name varchar
+    user_id int [ref: > users.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}

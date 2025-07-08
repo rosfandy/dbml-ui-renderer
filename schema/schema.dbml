@@ -30,11 +30,28 @@ Table levels {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
+// === TABLE: /entities/permissions.dbml ===
+Table permissions {
+  id int [pk, increment]
+  name varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
 // === TABLE: /entities/positions.dbml ===
 Table positions {
     id int [pk, increment]
     name varchar [not null]
     department_id int [ref: > departments.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/roles.dbml ===
+Table roles {
+    id int [pk, increment]
+    name varchar
+    user_id int [ref: > users.id]
     created_at timestamp [default: `CURRENT_TIMESTAMP`]
     updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
@@ -144,6 +161,15 @@ Table project_milestones {
   project_id int [ref: > projects.id]
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === RELATION: /relation/role_permissions/role_permissions.dbml ===
+Table role_permissions {
+    id int [pk, increment]
+    role_id int [ref: > roles.id]
+    permission_id int [ref: > permissions.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP`]
 }
 
 // === RELATION: /relation/squad_members/squad_members.dbml ===

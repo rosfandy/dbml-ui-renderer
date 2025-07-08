@@ -1,0 +1,12 @@
+// === ENTITY: permissions ===
+Table permissions {
+  id int [pk, increment]
+  name varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+// === RELATION: /relation/role_permissions/role_permissions.dbml ===
+Table role_permissions {
+    permission_id int [ref: > permissions.id]
+}

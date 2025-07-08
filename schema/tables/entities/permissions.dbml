@@ -1,0 +1,6 @@
+Table permissions {
+  id int [pk, increment]
+  name varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}

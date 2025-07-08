@@ -1,3 +1,11 @@
+// === TABLE DEPENDENCY: permissions ===
+Table permissions {
+  id int [pk, increment]
+  name varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
 // === TABLE DEPENDENCY: levels ===
 Table levels {
   id int [pk, increment]
@@ -34,7 +42,7 @@ Table titles {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === ENTITY: users ===
+// === TABLE DEPENDENCY: users ===
 Table users {
   id int [pk, increment]
   title_id int [ref: - titles.id]
@@ -49,22 +57,19 @@ Table users {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === RELATION: /relation/backlog_items/backlog_items.dbml ===
-Table backlog_items {
-  assigned_to int [ref: > users.id]
-}
-
-// === RELATION: /relation/squad_members/squad_members.dbml ===
-Table squad_members {
-  user_id int [ref: > users.id]
-}
-
-// === DIRECT RELATION: /entities/roles.dbml ===
+// === TABLE DEPENDENCY: roles ===
 Table roles {
-  user_id int [ref: > users.id]
+    id int [pk, increment]
+    name varchar
+    user_id int [ref: > users.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === DIRECT RELATION: /entities/scrum/backlogs.dbml ===
-Table backlogs {
-  pic int [ref: > users.id]
+Table role_permissions {
+    id int [pk, increment]
+    role_id int [ref: > roles.id]
+    permission_id int [ref: > permissions.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP`]
 }
