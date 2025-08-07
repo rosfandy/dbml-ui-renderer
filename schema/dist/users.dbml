@@ -1,3 +1,11 @@
+// === TABLE DEPENDENCY: roles ===
+Table roles {
+  id int [pk, increment]
+  name varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
 // === TABLE DEPENDENCY: levels ===
 Table levels {
   id int [pk, increment]
@@ -38,6 +46,7 @@ Table titles {
 Table users {
   id int [pk, increment]
   title_id int [ref: - titles.id]
+  role_id int [ref: > roles.id]
   name varchar [not null]
   email varchar [not null, unique]
   email_verified_at timestamp
@@ -59,8 +68,8 @@ Table squad_members {
   user_id int [ref: > users.id]
 }
 
-// === DIRECT RELATION: /entities/roles.dbml ===
-Table roles {
+// === DIRECT RELATION: /entities/activity_logs.dbml ===
+Table activity_logs {
   user_id int [ref: > users.id]
 }
 

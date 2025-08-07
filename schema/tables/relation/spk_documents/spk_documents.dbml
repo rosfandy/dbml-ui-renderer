@@ -1,0 +1,8 @@
+Table spk_documents {
+    id int [pk, increment]
+    title varchar [not null]
+    spk_id int [ref: > spk.id]
+    documents_id int [ref: > documents.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}

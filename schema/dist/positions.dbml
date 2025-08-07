@@ -15,6 +15,11 @@ Table positions {
     updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
+// === RELATION: /relation/sop_positions/sop_positions.dbml ===
+Table sop_positions {
+    position_id int [ref: > positions.id]
+}
+
 // === DIRECT RELATION: /entities/scrum/statuses.dbml ===
 Table statuses {
   position_id int [ref: > positions.id]

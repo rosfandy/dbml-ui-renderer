@@ -11,6 +11,25 @@ Enum status {
   DONE
 }
 
+Enum action {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+// === TABLE: /entities/activity_logs.dbml ===
+Table activity_logs {
+  id int [pk, increment]
+  user_id int [ref: > users.id]
+  table_ref varchar
+  action action
+  message varchar
+  device varchar
+  origins varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
 // === TABLE: /entities/departments.dbml ===
 Table departments {
   id int [pk, increment]
@@ -20,7 +39,13 @@ Table departments {
 }
 
 // === TABLE: /entities/documents.dbml ===
-
+Table documents {
+  id int [pk, increment]
+  title varchar [not null]
+  content jsonb
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
 
 // === TABLE: /entities/level.dbml ===
 Table levels {
@@ -49,11 +74,10 @@ Table positions {
 
 // === TABLE: /entities/roles.dbml ===
 Table roles {
-    id int [pk, increment]
-    name varchar
-    user_id int [ref: > users.id]
-    created_at timestamp [default: `CURRENT_TIMESTAMP`]
-    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  id int [pk, increment]
+  name varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
 // === TABLE: /entities/scrum/backlogs.dbml ===
@@ -113,6 +137,24 @@ Table statuses {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 } 
 
+// === TABLE: /entities/sop.dbml ===
+Table sop {
+  id int [pk, increment]
+  title varchar [not null]
+  content jsonb
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/spk.dbml ===
+Table spk {
+  id int [pk, increment]
+  title varchar [not null]
+  content jsonb
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
 // === TABLE: /entities/titles.dbml ===
 Table titles {
   id int [pk, increment]
@@ -128,6 +170,7 @@ Table titles {
 Table users {
   id int [pk, increment]
   title_id int [ref: - titles.id]
+  role_id int [ref: > roles.id]
   name varchar [not null]
   email varchar [not null, unique]
   email_verified_at timestamp
@@ -170,6 +213,34 @@ Table role_permissions {
     permission_id int [ref: > permissions.id]
     created_at timestamp [default: `CURRENT_TIMESTAMP`]
     updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+// === RELATION: /relation/sop_documents/sop_documents.dbml ===
+Table sop_documents {
+  id int [pk, increment]
+  title varchar [not null]
+  sop_id int [ref: > sop.id]
+  documents_id int [ref: > documents.id]
+  content jsonb
+  created_at timestamp [default=now()]
+  updated_at timestamp [default=now()]
+}
+
+// === RELATION: /relation/sop_positions/sop_positions.dbml ===
+Table sop_positions {
+    id int [pk, increment]
+    sop_id int [ref: > sop.id]
+    position_id int [ref: > positions.id]
+}
+
+// === RELATION: /relation/spk_documents/spk_documents.dbml ===
+Table spk_documents {
+    id int [pk, increment]
+    title varchar [not null]
+    spk_id int [ref: > spk.id]
+    documents_id int [ref: > documents.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
 // === RELATION: /relation/squad_members/squad_members.dbml ===

@@ -9,3 +9,9 @@ Enum status {
   IN_PROGRESS
   DONE
 }
+
+Enum action {
+  CREATE
+  UPDATE
+  DELETE
+}

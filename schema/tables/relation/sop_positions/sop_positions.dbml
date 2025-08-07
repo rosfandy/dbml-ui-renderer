@@ -1,0 +1,5 @@
+Table sop_positions {
+    id int [pk, increment]
+    sop_id int [ref: > sop.id]
+    position_id int [ref: > positions.id]
+}

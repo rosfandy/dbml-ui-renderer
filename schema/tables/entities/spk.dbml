@@ -1,6 +1,7 @@
-Table roles {
+Table spk {
   id int [pk, increment]
-  name varchar
+  title varchar [not null]
+  content jsonb
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
