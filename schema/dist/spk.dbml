@@ -1,0 +1,13 @@
+// === ENTITY: spk ===
+Table spk {
+  id int [pk, increment]
+  title varchar [not null]
+  content jsonb
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === RELATION: /relation/spk_documents/spk_documents.dbml ===
+Table spk_documents {
+    spk_id int [ref: > spk.id]
+}

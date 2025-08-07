@@ -1,0 +1,31 @@
+// === TABLE DEPENDENCY: departments ===
+Table departments {
+  id int [pk, increment]
+  name varchar [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: positions ===
+Table positions {
+    id int [pk, increment]
+    name varchar [not null]
+    department_id int [ref: > departments.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: sop ===
+Table sop {
+  id int [pk, increment]
+  title varchar [not null]
+  content jsonb
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+Table sop_positions {
+    id int [pk, increment]
+    sop_id int [ref: > sop.id]
+    position_id int [ref: > positions.id]
+}

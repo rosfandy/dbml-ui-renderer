@@ -1,0 +1,18 @@
+// === ENTITY: documents ===
+Table documents {
+  id int [pk, increment]
+  title varchar [not null]
+  content jsonb
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === RELATION: /relation/sop_documents/sop_documents.dbml ===
+Table sop_documents {
+  documents_id int [ref: > documents.id]
+}
+
+// === RELATION: /relation/spk_documents/spk_documents.dbml ===
+Table spk_documents {
+    documents_id int [ref: > documents.id]
+}
