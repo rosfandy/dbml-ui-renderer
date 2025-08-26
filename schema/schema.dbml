@@ -47,7 +47,28 @@ Table documents {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === TABLE: /entities/level.dbml ===
+// === TABLE: /entities/epics.dbml ===
+Table epics {
+    id int [pk, increment]
+    name varchar [not null]
+    product_id int [ref: > products.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/jobs.dbml ===
+Table jobs {
+  id int [pk, increment]
+  title varchar
+  instruction jsonb
+  guide jsonb
+  sop_id int [ref: > sops.id]
+  spk_id int [ref: > spks.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/levels.dbml ===
 Table levels {
   id int [pk, increment]
   name varchar [not null]
@@ -72,6 +93,15 @@ Table positions {
     updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
+// === TABLE: /entities/products.dbml ===
+Table products {
+  id int [pk, increment]
+  name varchar
+  project_id int [ref: > projects.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
 // === TABLE: /entities/roles.dbml ===
 Table roles {
   id int [pk, increment]
@@ -85,6 +115,7 @@ Table backlogs {
   id int [pk, increment]
   pic int [ref: > users.id]
   project_id int [ref: > projects.id]
+  epic_id int [ref: > epics.id]
   code varchar 
   priority prioritas
   description text
@@ -137,19 +168,21 @@ Table statuses {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 } 
 
-// === TABLE: /entities/sop.dbml ===
-Table sop {
+// === TABLE: /entities/sops.dbml ===
+Table sops {
   id int [pk, increment]
   title varchar [not null]
+  code varchar
   content jsonb
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === TABLE: /entities/spk.dbml ===
-Table spk {
+// === TABLE: /entities/spks.dbml ===
+Table spks {
   id int [pk, increment]
   title varchar [not null]
+  code varchar
   content jsonb
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
@@ -197,6 +230,13 @@ Table backlog_items {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
+// === RELATION: /relation/product_documents/product_documents.dbml ===
+Table product_documents{
+    id int [pk, increment]
+    product_id int [ref: > products.id]
+    document_id int [ref: > documents.id]
+}
+
 // === RELATION: /relation/project_milestones/project_milestones.dbml ===
 Table project_milestones {
   id int [pk, increment]
@@ -215,32 +255,18 @@ Table role_permissions {
     updated_at timestamp [default: `CURRENT_TIMESTAMP`]
 }
 
-// === RELATION: /relation/sop_documents/sop_documents.dbml ===
-Table sop_documents {
-  id int [pk, increment]
-  title varchar [not null]
-  sop_id int [ref: > sop.id]
-  documents_id int [ref: > documents.id]
-  content jsonb
-  created_at timestamp [default=now()]
-  updated_at timestamp [default=now()]
-}
-
 // === RELATION: /relation/sop_positions/sop_positions.dbml ===
 Table sop_positions {
     id int [pk, increment]
-    sop_id int [ref: > sop.id]
+    sop_id int [ref: > sops.id]
     position_id int [ref: > positions.id]
 }
 
-// === RELATION: /relation/spk_documents/spk_documents.dbml ===
-Table spk_documents {
+// === RELATION: /relation/spk_positions/spk_positions.dbml ===
+Table spk_positions {
     id int [pk, increment]
-    title varchar [not null]
-    spk_id int [ref: > spk.id]
-    documents_id int [ref: > documents.id]
-    created_at timestamp [default: `CURRENT_TIMESTAMP`]
-    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+    spk_id int [ref: > spks.id]
+    position_id int [ref: > positions.id]
 }
 
 // === RELATION: /relation/squad_members/squad_members.dbml ===

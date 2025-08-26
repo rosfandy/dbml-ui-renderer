@@ -2,6 +2,7 @@ Table backlogs {
   id int [pk, increment]
   pic int [ref: > users.id]
   project_id int [ref: > projects.id]
+  epic_id int [ref: > epics.id]
   code varchar 
   priority prioritas
   description text

@@ -1,0 +1,5 @@
+Table product_documents{
+    id int [pk, increment]
+    product_id int [ref: > products.id]
+    document_id int [ref: > documents.id]
+}

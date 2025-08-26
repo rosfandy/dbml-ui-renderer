@@ -10,6 +10,24 @@ Table statuses {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 } 
 
+// === TABLE DEPENDENCY: products ===
+Table products {
+  id int [pk, increment]
+  name varchar
+  project_id int [ref: > projects.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: epics ===
+Table epics {
+    id int [pk, increment]
+    name varchar [not null]
+    product_id int [ref: > products.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
 // === TABLE DEPENDENCY: projects ===
 Table projects {
   id int [pk, increment]
@@ -84,6 +102,7 @@ Table backlogs {
   id int [pk, increment]
   pic int [ref: > users.id]
   project_id int [ref: > projects.id]
+  epic_id int [ref: > epics.id]
   code varchar 
   priority prioritas
   description text

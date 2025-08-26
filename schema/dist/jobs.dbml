@@ -1,0 +1,31 @@
+// === TABLE DEPENDENCY: spks ===
+Table spks {
+  id int [pk, increment]
+  title varchar [not null]
+  code varchar
+  content jsonb
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: sops ===
+Table sops {
+  id int [pk, increment]
+  title varchar [not null]
+  code varchar
+  content jsonb
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === ENTITY: jobs ===
+Table jobs {
+  id int [pk, increment]
+  title varchar
+  instruction jsonb
+  guide jsonb
+  sop_id int [ref: > sops.id]
+  spk_id int [ref: > spks.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+}

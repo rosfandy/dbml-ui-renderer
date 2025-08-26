@@ -1,8 +1,7 @@
-Table spk_documents {
+Table epics {
     id int [pk, increment]
-    title varchar [not null]
-    spk_id int [ref: > spk.id]
-    documents_id int [ref: > documents.id]
+    name varchar [not null]
+    product_id int [ref: > products.id]
     created_at timestamp [default: `CURRENT_TIMESTAMP`]
     updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }

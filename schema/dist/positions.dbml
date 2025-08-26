@@ -20,6 +20,11 @@ Table sop_positions {
     position_id int [ref: > positions.id]
 }
 
+// === RELATION: /relation/spk_positions/spk_positions.dbml ===
+Table spk_positions {
+    position_id int [ref: > positions.id]
+}
+
 // === DIRECT RELATION: /entities/scrum/statuses.dbml ===
 Table statuses {
   position_id int [ref: > positions.id]

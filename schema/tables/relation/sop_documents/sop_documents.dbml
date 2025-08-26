@@ -1,9 +1,0 @@
-Table sop_documents {
-  id int [pk, increment]
-  title varchar [not null]
-  sop_id int [ref: > sop.id]
-  documents_id int [ref: > documents.id]
-  content jsonb
-  created_at timestamp [default=now()]
-  updated_at timestamp [default=now()]
-}

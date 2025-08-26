@@ -1,6 +1,7 @@
-Table sop {
+Table spks {
   id int [pk, increment]
   title varchar [not null]
+  code varchar
   content jsonb
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]

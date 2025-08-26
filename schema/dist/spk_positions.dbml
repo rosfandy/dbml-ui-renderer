@@ -15,8 +15,8 @@ Table positions {
     updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === TABLE DEPENDENCY: sops ===
-Table sops {
+// === TABLE DEPENDENCY: spks ===
+Table spks {
   id int [pk, increment]
   title varchar [not null]
   code varchar
@@ -25,8 +25,8 @@ Table sops {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-Table sop_positions {
+Table spk_positions {
     id int [pk, increment]
-    sop_id int [ref: > sops.id]
+    spk_id int [ref: > spks.id]
     position_id int [ref: > positions.id]
 }

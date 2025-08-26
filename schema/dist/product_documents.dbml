@@ -1,0 +1,32 @@
+// === TABLE DEPENDENCY: documents ===
+Table documents {
+  id int [pk, increment]
+  title varchar [not null]
+  content jsonb
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: projects ===
+Table projects {
+  id int [pk, increment]
+  name varchar [not null]
+  code varchar
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: products ===
+Table products {
+  id int [pk, increment]
+  name varchar
+  project_id int [ref: > projects.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+Table product_documents{
+    id int [pk, increment]
+    product_id int [ref: > products.id]
+    document_id int [ref: > documents.id]
+}

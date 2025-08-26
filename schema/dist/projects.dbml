@@ -12,6 +12,11 @@ Table project_milestones {
   project_id int [ref: > projects.id]
 }
 
+// === DIRECT RELATION: /entities/products.dbml ===
+Table products {
+  project_id int [ref: > projects.id]
+}
+
 // === DIRECT RELATION: /entities/scrum/backlogs.dbml ===
 Table backlogs {
   project_id int [ref: > projects.id]

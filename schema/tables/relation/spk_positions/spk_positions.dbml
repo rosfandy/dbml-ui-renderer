@@ -1,5 +1,5 @@
-Table sop_positions {
+Table spk_positions {
     id int [pk, increment]
-    sop_id int [ref: > sops.id]
+    spk_id int [ref: > spks.id]
     position_id int [ref: > positions.id]
 }
