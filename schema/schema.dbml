@@ -30,6 +30,23 @@ Table activity_logs {
   updated_at timestamp
 }
 
+// === TABLE: /entities/backlog_items.dbml ===
+Table backlog_items {
+  id int [pk, increment]
+  backlog_id int [ref: > backlogs.id]
+  assigned_to int [ref: > users.id]
+  status_id int [ref: > statuses.id]
+  sprint_id int [ref: > sprints.id]
+  estimate int
+  code varchar
+  start_date date
+  end_date date
+  priority prioritas
+  description text
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
 // === TABLE: /entities/departments.dbml ===
 Table departments {
   id int [pk, increment]
@@ -121,6 +138,7 @@ Table backlogs {
   description text
   start_date date
   end_date date
+  created_by int [ref: > users.id]
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
@@ -139,6 +157,7 @@ Table sprints {
   id int [pk, increment]
   name varchar
   code varchar
+  total_estimate int
   start_date datetime
   end_date datetime
   squad_id int [ref: > squads.id]
@@ -211,21 +230,6 @@ Table users {
   remember_token varchar
   custom_fields json
   avatar_url varchar
-  created_at timestamp [default: `CURRENT_TIMESTAMP`]
-  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
-}
-
-// === RELATION: /relation/backlog_items/backlog_items.dbml ===
-Table backlog_items {
-  id int [pk, increment]
-  backlog_id int [ref: > backlogs.id]
-  assigned_to int [ref: > users.id]
-  status_id int [ref: > statuses.id]
-  code varchar
-  start_date date
-  end_date date
-  priority prioritas
-  description text
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }

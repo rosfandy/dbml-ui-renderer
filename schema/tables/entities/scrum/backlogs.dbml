@@ -8,6 +8,7 @@ Table backlogs {
   description text
   start_date date
   end_date date
+  created_by int [ref: > users.id]
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }

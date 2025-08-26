@@ -27,7 +27,7 @@ Table statuses {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 } 
 
-// === RELATION: /relation/backlog_items/backlog_items.dbml ===
+// === DIRECT RELATION: /entities/backlog_items.dbml ===
 Table backlog_items {
   status_id int [ref: > statuses.id]
 }

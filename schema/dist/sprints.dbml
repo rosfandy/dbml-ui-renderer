@@ -22,9 +22,15 @@ Table sprints {
   id int [pk, increment]
   name varchar
   code varchar
+  total_estimate int
   start_date datetime
   end_date datetime
   squad_id int [ref: > squads.id]
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === DIRECT RELATION: /entities/backlog_items.dbml ===
+Table backlog_items {
+  sprint_id int [ref: > sprints.id]
 }

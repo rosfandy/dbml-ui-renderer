@@ -96,11 +96,12 @@ Table backlogs {
   description text
   start_date date
   end_date date
+  created_by int [ref: > users.id]
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === RELATION: /relation/backlog_items/backlog_items.dbml ===
+// === DIRECT RELATION: /entities/backlog_items.dbml ===
 Table backlog_items {
   backlog_id int [ref: > backlogs.id]
 }

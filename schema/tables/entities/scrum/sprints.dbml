@@ -2,6 +2,7 @@ Table sprints {
   id int [pk, increment]
   name varchar
   code varchar
+  total_estimate int
   start_date datetime
   end_date datetime
   squad_id int [ref: > squads.id]
