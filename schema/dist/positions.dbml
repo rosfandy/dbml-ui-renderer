@@ -30,6 +30,16 @@ Table statuses {
   position_id int [ref: > positions.id]
 }
 
+// === DIRECT RELATION: /entities/sop_jobs.dbml ===
+Table sop_jobs {
+  position_id int [ref: > positions.id, not null]
+}
+
+// === DIRECT RELATION: /entities/spk_jobs.dbml ===
+Table spk_jobs {
+  position_id int [ref: > positions.id]
+}
+
 // === DIRECT RELATION: /entities/titles.dbml ===
 Table titles {
   position_id int [ref: > positions.id]

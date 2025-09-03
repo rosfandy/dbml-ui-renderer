@@ -15,3 +15,9 @@ Enum action {
   UPDATE
   DELETE
 }
+
+Enum job_type {
+  sop
+  spk
+  instruction
+}

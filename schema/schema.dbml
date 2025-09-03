@@ -17,6 +17,12 @@ Enum action {
   DELETE
 }
 
+Enum job_type {
+  sop
+  spk
+  instruction
+}
+
 // === TABLE: /entities/activity_logs.dbml ===
 Table activity_logs {
   id int [pk, increment]
@@ -73,16 +79,10 @@ Table epics {
     updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 }
 
-// === TABLE: /entities/jobs.dbml ===
-Table jobs {
+// === TABLE: /entities/flowcharts.dbml ===
+Table flowcharts {
   id int [pk, increment]
-  title varchar
-  instruction jsonb
-  guide jsonb
-  sop_id int [ref: > sops.id]
-  spk_id int [ref: > spks.id]
-  created_at timestamp [default: `CURRENT_TIMESTAMP`]
-  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+  name varchar [not null]
 }
 
 // === TABLE: /entities/levels.dbml ===
@@ -187,6 +187,21 @@ Table statuses {
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
 } 
 
+// === TABLE: /entities/sop_jobs.dbml ===
+Table sop_jobs {
+    id int [pk, increment]
+    name varchar [not null]
+    type job_type
+    description jsonb
+    sop_id int [ref: > sops.id, not null]
+    position_id int [ref: > positions.id, not null]
+    reference_id int [null]
+    index int
+
+    created_at timestamp [default: `current_timestamp`]
+    updated_at timestamp [default: `current_timestamp`]
+}
+
 // === TABLE: /entities/sops.dbml ===
 Table sops {
   id int [pk, increment]
@@ -195,6 +210,19 @@ Table sops {
   content jsonb
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
   updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE: /entities/spk_jobs.dbml ===
+Table spk_jobs {
+    id int [pk, increment]
+    name varchar [not null]
+    description jsonb
+    spk_id int [ref: > spks.id]
+    sop_id int [ref: > sops.id]
+    position_id int [ref: > positions.id]
+    index int
+    created_at timestamp [default: `current_timestamp`]
+    updated_at timestamp [default: `current_timestamp`]
 }
 
 // === TABLE: /entities/spks.dbml ===
@@ -259,11 +287,25 @@ Table role_permissions {
     updated_at timestamp [default: `CURRENT_TIMESTAMP`]
 }
 
+// === RELATION: /relation/sop_job_flowcharts/sop_job_flowcharts.dbml ===
+Table sop_job_flowcharts {
+    id int [pk, increment]
+    sop_job_id int [ref: > sop_jobs.id, not null]
+    flowchart_id int [ref: > flowcharts.id, not null]
+}
+
 // === RELATION: /relation/sop_positions/sop_positions.dbml ===
 Table sop_positions {
     id int [pk, increment]
     sop_id int [ref: > sops.id]
     position_id int [ref: > positions.id]
+}
+
+// === RELATION: /relation/spk_job_flowcharts/spk_job_flowcharts.dbml ===
+Table spk_job_flowcharts {
+    id int [pk, increment]
+    spk_job_id int [ref: > spk_jobs.id, not null]
+    flowchart_id int [ref: > flowcharts.id, not null]
 }
 
 // === RELATION: /relation/spk_positions/spk_positions.dbml ===

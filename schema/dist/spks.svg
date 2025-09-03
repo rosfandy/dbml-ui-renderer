@@ -66,27 +66,27 @@
 <text text-anchor="middle" x="608.6" y="-400.61" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">1</text>
 <text text-anchor="middle" x="420.47" y="-525.41" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">*</text>
 </g>
-<!-- jobs -->
-<g id="jobs" class="node">
-<title>jobs</title>
-<ellipse fill="none" stroke="black" stroke-width="0" cx="243.24" cy="-352.81" rx="147.57" ry="87.86"/>
-<polygon fill="#1d71b8" stroke="transparent" points="141.24,-352.81 141.24,-412.81 346.24,-412.81 346.24,-352.81 141.24,-352.81"/>
-<polygon fill="none" stroke="#29235c" points="141.24,-352.81 141.24,-412.81 346.24,-412.81 346.24,-352.81 141.24,-352.81"/>
-<text text-anchor="start" x="152.16" y="-374.01" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="32.00" fill="#ffffff"> &#160;&#160;&#160;&#160;&#160;&#160;jobs &#160;&#160;&#160;&#160;&#160;&#160;</text>
-<polygon fill="#e7e2dd" stroke="transparent" points="141.24,-292.81 141.24,-352.81 346.24,-352.81 346.24,-292.81 141.24,-292.81"/>
-<polygon fill="none" stroke="#29235c" points="141.24,-292.81 141.24,-352.81 346.24,-352.81 346.24,-292.81 141.24,-292.81"/>
-<text text-anchor="start" x="152.24" y="-313.01" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">spk_id &#160;&#160;&#160;</text>
-<text text-anchor="start" x="301.46" y="-314.01" font-family="Helvetica,sans-Serif" font-style="italic" font-size="32.00" fill="#29235c">int</text>
-<polygon fill="none" stroke="#29235c" stroke-width="2" points="139.74,-291.81 139.74,-413.81 346.74,-413.81 346.74,-291.81 139.74,-291.81"/>
+<!-- spk_jobs -->
+<g id="spk_jobs" class="node">
+<title>spk_jobs</title>
+<ellipse fill="none" stroke="black" stroke-width="0" cx="243.24" cy="-352.81" rx="195.32" ry="87.86"/>
+<polygon fill="#1d71b8" stroke="transparent" points="107.24,-352.81 107.24,-412.81 379.24,-412.81 379.24,-352.81 107.24,-352.81"/>
+<polygon fill="none" stroke="#29235c" points="107.24,-352.81 107.24,-412.81 379.24,-412.81 379.24,-352.81 107.24,-352.81"/>
+<text text-anchor="start" x="117.87" y="-374.01" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="32.00" fill="#ffffff"> &#160;&#160;&#160;&#160;&#160;&#160;spk_jobs &#160;&#160;&#160;&#160;&#160;&#160;</text>
+<polygon fill="#e7e2dd" stroke="transparent" points="107.24,-292.81 107.24,-352.81 379.24,-352.81 379.24,-292.81 107.24,-292.81"/>
+<polygon fill="none" stroke="#29235c" points="107.24,-292.81 107.24,-352.81 379.24,-352.81 379.24,-292.81 107.24,-292.81"/>
+<text text-anchor="start" x="118.24" y="-313.01" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">spk_id &#160;&#160;&#160;</text>
+<text text-anchor="start" x="334.46" y="-314.01" font-family="Helvetica,sans-Serif" font-style="italic" font-size="32.00" fill="#29235c">int</text>
+<polygon fill="none" stroke="#29235c" stroke-width="2" points="106.24,-291.81 106.24,-413.81 380.24,-413.81 380.24,-291.81 106.24,-291.81"/>
 </g>
-<!-- jobs&#45;&gt;spks -->
-<!-- jobs&#45;&gt;spks -->
+<!-- spk_jobs&#45;&gt;spks -->
+<!-- spk_jobs&#45;&gt;spks -->
 <g id="edge4" class="edge">
-<title>jobs:e&#45;&gt;spks:w</title>
-<path fill="none" stroke="#29235c" stroke-width="3" d="M347.24,-322.81C463.92,-322.81 478.7,-414.21 589.41,-419.57"/>
-<polygon fill="#29235c" stroke="#29235c" stroke-width="3" points="589.62,-423.07 599.7,-419.81 589.79,-416.08 589.62,-423.07"/>
+<title>spk_jobs:e&#45;&gt;spks:w</title>
+<path fill="none" stroke="#29235c" stroke-width="3" d="M380.24,-322.81C483.45,-322.81 492.56,-413.66 589.7,-419.52"/>
+<polygon fill="#29235c" stroke="#29235c" stroke-width="3" points="589.61,-423.02 599.7,-419.81 589.81,-416.02 589.61,-423.02"/>
 <text text-anchor="middle" x="590.81" y="-391.01" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">1</text>
-<text text-anchor="middle" x="353.47" y="-294.01" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">*</text>
+<text text-anchor="middle" x="386.47" y="-294.01" font-family="Helvetica,sans-Serif" font-size="32.00" fill="#29235c">*</text>
 </g>
 </g>
 </svg>

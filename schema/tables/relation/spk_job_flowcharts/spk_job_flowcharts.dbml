@@ -1,0 +1,5 @@
+Table spk_job_flowcharts {
+    id int [pk, increment]
+    spk_job_id int [ref: > spk_jobs.id, not null]
+    flowchart_id int [ref: > flowcharts.id, not null]
+}

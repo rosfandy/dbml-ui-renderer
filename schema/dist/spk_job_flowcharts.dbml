@@ -1,0 +1,61 @@
+// === TABLE DEPENDENCY: flowcharts ===
+Table flowcharts {
+  id int [pk, increment]
+  name varchar [not null]
+}
+
+// === TABLE DEPENDENCY: departments ===
+Table departments {
+  id int [pk, increment]
+  name varchar [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: positions ===
+Table positions {
+    id int [pk, increment]
+    name varchar [not null]
+    department_id int [ref: > departments.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: sops ===
+Table sops {
+  id int [pk, increment]
+  title varchar [not null]
+  code varchar
+  content jsonb
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: spks ===
+Table spks {
+  id int [pk, increment]
+  title varchar [not null]
+  code varchar
+  content jsonb
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: spk_jobs ===
+Table spk_jobs {
+    id int [pk, increment]
+    name varchar [not null]
+    description jsonb
+    spk_id int [ref: > spks.id]
+    sop_id int [ref: > sops.id]
+    position_id int [ref: > positions.id]
+    index int
+    created_at timestamp [default: `current_timestamp`]
+    updated_at timestamp [default: `current_timestamp`]
+}
+
+Table spk_job_flowcharts {
+    id int [pk, increment]
+    spk_job_id int [ref: > spk_jobs.id, not null]
+    flowchart_id int [ref: > flowcharts.id, not null]
+}

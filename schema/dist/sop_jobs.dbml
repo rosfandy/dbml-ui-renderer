@@ -1,0 +1,46 @@
+// === TABLE DEPENDENCY: departments ===
+Table departments {
+  id int [pk, increment]
+  name varchar [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: positions ===
+Table positions {
+    id int [pk, increment]
+    name varchar [not null]
+    department_id int [ref: > departments.id]
+    created_at timestamp [default: `CURRENT_TIMESTAMP`]
+    updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === TABLE DEPENDENCY: sops ===
+Table sops {
+  id int [pk, increment]
+  title varchar [not null]
+  code varchar
+  content jsonb
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+}
+
+// === ENTITY: sop_jobs ===
+Table sop_jobs {
+    id int [pk, increment]
+    name varchar [not null]
+    type job_type
+    description jsonb
+    sop_id int [ref: > sops.id, not null]
+    position_id int [ref: > positions.id, not null]
+    reference_id int [null]
+    index int
+
+    created_at timestamp [default: `current_timestamp`]
+    updated_at timestamp [default: `current_timestamp`]
+}
+
+// === RELATION: /relation/sop_job_flowcharts/sop_job_flowcharts.dbml ===
+Table sop_job_flowcharts {
+    sop_job_id int [ref: > sop_jobs.id, not null]
+}

@@ -1,0 +1,11 @@
+Table spk_jobs {
+    id int [pk, increment]
+    name varchar [not null]
+    description jsonb
+    spk_id int [ref: > spks.id]
+    sop_id int [ref: > sops.id]
+    position_id int [ref: > positions.id]
+    index int
+    created_at timestamp [default: `current_timestamp`]
+    updated_at timestamp [default: `current_timestamp`]
+}

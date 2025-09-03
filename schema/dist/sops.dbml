@@ -13,7 +13,12 @@ Table sop_positions {
     sop_id int [ref: > sops.id]
 }
 
-// === DIRECT RELATION: /entities/jobs.dbml ===
-Table jobs {
+// === DIRECT RELATION: /entities/sop_jobs.dbml ===
+Table sop_jobs {
+  sop_id int [ref: > sops.id, not null]
+}
+
+// === DIRECT RELATION: /entities/spk_jobs.dbml ===
+Table spk_jobs {
   sop_id int [ref: > sops.id]
 }

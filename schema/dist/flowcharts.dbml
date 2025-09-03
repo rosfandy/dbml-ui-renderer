@@ -1,0 +1,15 @@
+// === ENTITY: flowcharts ===
+Table flowcharts {
+  id int [pk, increment]
+  name varchar [not null]
+}
+
+// === RELATION: /relation/sop_job_flowcharts/sop_job_flowcharts.dbml ===
+Table sop_job_flowcharts {
+    flowchart_id int [ref: > flowcharts.id, not null]
+}
+
+// === RELATION: /relation/spk_job_flowcharts/spk_job_flowcharts.dbml ===
+Table spk_job_flowcharts {
+    flowchart_id int [ref: > flowcharts.id, not null]
+}

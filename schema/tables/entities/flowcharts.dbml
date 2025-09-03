@@ -1,0 +1,4 @@
+Table flowcharts {
+  id int [pk, increment]
+  name varchar [not null]
+}
